@@ -5,7 +5,7 @@ export const apiUrl = 'https://funnyeagle.cn'
 // Giscus评论系统配置
 export const giscusConfig = {
     enabled: true, 
-    repo: 'funny-eagle/funny-eagle.github.io', 
+    repo: 'yangjinlong86/yangjinlong86.github.io', 
     repoId: 'MDEwOlJlcG9zaXRvcnk1NTI1NDYxMg==', 
     category: 'Comments', 
     categoryId: 'DIC_kwDOA0seVM4CwBGj',
@@ -58,7 +58,7 @@ export const socialMedia = [
   },
   {
     icon: 'github-fill',
-    href: 'https://github.com/funny-eagle',
+    href: 'https://github.com/yangjinlong86',
   },
   {
     icon: 'twitter',
@@ -66,7 +66,7 @@ export const socialMedia = [
   },
   {
     icon: 'rss',
-    href: 'http://funnyeagle.cn/rss.xml',
+    href: 'https://yangjinlong86.github.io/rss.xml',
   },
 ]
 
@@ -83,7 +83,7 @@ export const friends = [
   {
     title: 'FunnyEagle',
     description: '老鹰的博客',
-    href: 'http://funnyeagle.cn',
-    img: 'http://funnyeagle.cn/static/df1082d3ffc5b1288b5e7e78fe346036/ee81f/profile-pic.avif',
+    href: 'https://yangjinlong86.github.io',
+    img: 'https://yangjinlong86.github.io/static/df1082d3ffc5b1288b5e7e78fe346036/ee81f/profile-pic.avif',
   },
 ]

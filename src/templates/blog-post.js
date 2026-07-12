@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
-import Layout from '../components/Layout'
+import Layout from '../components/layout'
 import Info from '../components/PostInfo'
-import SEO from '../components/Seo'
+import SEO from '../components/seo'
 import GiscusComment from '../components/GiscusComment'
 // 引入代码高亮组件
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
 import Pagination from '../components/Pagination'
-import SEO from '../components/Seo'
+import SEO from '../components/seo'
 
 import Layout from '../components/layout'
 /**

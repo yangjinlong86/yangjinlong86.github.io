@@ -5,7 +5,7 @@ module.exports = {
     title: "Funny Eagle",
     author: 'Jason Yang',
     description: "Funny Eagle 技术博客;记录技术成长",
-    siteUrl: 'https://funnyeagle.cn',
+    siteUrl: 'https://yangjinlong86.github.io',
     keywords: ['编程', '音乐', '生活'],
   },
   jsxRuntime: 'automatic',

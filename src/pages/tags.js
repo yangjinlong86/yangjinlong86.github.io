@@ -1,7 +1,7 @@
 import React from 'react'
-import Layout from '../components/Layout'
+import Layout from '../components/layout'
 import PropTypes from 'prop-types'
-import SEO from '../components/Seo'
+import SEO from '../components/seo'
 
 import { Link, graphql } from 'gatsby'
 

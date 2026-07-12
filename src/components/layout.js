@@ -73,7 +73,7 @@ class Layout extends React.Component {
   // 执行搜索
   search = () => {
     window.open(
-      'https://cn.bing.com/search?q=site%3Afunnyeagle.cn%20' +
+      'https://cn.bing.com/search?q=site%3Ayangjinlong86.github.io%20' +
         this.state.keyword
     )
   }
@@ -173,7 +173,7 @@ class Layout extends React.Component {
           </div>
           <div style={footerStyle}>
             
-            © <span className="year">{year}</span> funnyeagle.cn {' '}
+            © <span className="year">{year}</span> yangjinlong86.github.io {' '}
             • Powered by{' '}
             <a
               className="funnyeagle"
