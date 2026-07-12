@@ -5,23 +5,26 @@ const { headings } = Astro.props;
 const toc = headings.filter((h: Heading) => h.depth >= 2 && h.depth <= 4);
 ---
 {toc.length > 0 && (
-  <nav class="css-toc" id="css-toc">
-    {toc.map((h: Heading) => (
-      <a href={`#${h.slug}`} class={`toc-h toc-h${h.depth}`} data-toc={h.slug}>{h.text}</a>
-    ))}
-  </nav>
+  <details class="post-toc">
+    <summary>目录</summary>
+    <nav class="toc-nav">
+      {toc.map((h: Heading) => (
+        <a href={`#${h.slug}`} class={`toc-h toc-h${h.depth}`} data-toc={h.slug}>{h.text}</a>
+      ))}
+    </nav>
+  </details>
 )}
 <script>
   let pre = location.hash || '';
   const setActive = (id: string) => {
-    document.querySelectorAll('.css-toc a.active').forEach((a) => a.classList.remove('active'));
+    document.querySelectorAll('.toc-nav a.active').forEach((a) => a.classList.remove('active'));
     if (id) {
-      const el = document.querySelector(`.css-toc a[data-toc="${id}"]`);
+      const el = document.querySelector(`.toc-nav a[data-toc="${id}"]`);
       if (el) el.classList.add('active');
     }
   };
   if (pre) setActive(decodeURIComponent(pre.slice(1)));
-  document.querySelectorAll('.css-toc a').forEach((a) => {
+  document.querySelectorAll('.toc-nav a').forEach((a) => {
     a.addEventListener('click', () => { pre = a.getAttribute('data-toc') || ''; });
   });
   document.addEventListener('scroll', () => {
@@ -36,3 +39,31 @@ const toc = headings.filter((h: Heading) => h.depth >= 2 && h.depth <= 4);
     }
   });
 </script>
+<style>
+  .post-toc {
+    margin: 0 0 2em;
+    padding: 0.8em 1.2em;
+    background: rgb(var(--gray-light));
+    border-radius: 8px;
+  }
+  .post-toc summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: rgb(var(--black));
+  }
+  .toc-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    margin-top: 0.8em;
+  }
+  .toc-nav a {
+    color: rgb(var(--gray-dark));
+    text-decoration: none;
+    font-size: 0.95em;
+  }
+  .toc-nav a:hover { color: var(--accent); }
+  .toc-nav a.toc-h3 { padding-left: 1em; }
+  .toc-nav a.toc-h4 { padding-left: 2em; }
+  .toc-nav a.active { color: var(--accent); font-weight: 700; }
+</style>

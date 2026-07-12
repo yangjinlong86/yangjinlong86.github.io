@@ -26,9 +26,9 @@ for (const p of pagePosts) {
 <BaseLayout title="归档" description="一步一步，走出自己的轨迹" pathname={`/archive/${currentPage}/`}>
   <Layout>
     <div class="css-archive">
-      {Object.entries(groups).map(([year, ps]) => (
+      {Object.entries(groups).sort((a, b) => Number(b[0]) - Number(a[0])).map(([year, ps]) => (
         <div>
-          <div class="year-title" style="margin-bottom:1.2rem;">{year}</div>
+          <div class="year-title">{year}</div>
           {ps.map((p) => (
             <div class="item">
               <span class="date">{p.data.date.slice(5, 10)}</span>

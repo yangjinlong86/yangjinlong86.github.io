@@ -25,16 +25,16 @@ const date = post.data.date.split(' ')[0];
 ---
 <BaseLayout title={post.data.title} description={post.data.description} keywords={post.data.tags} pathname={`/${post.slug}`}>
   <Layout>
-    <Toc slot="aside" headings={headings} />
     <h1>{post.data.title}</h1>
     <PostInfo date={date} tags={post.data.tags} />
-    <div class="css-post-main">
+    <Toc headings={headings} />
+    <div class="prose">
       <Content />
     </div>
     <hr />
-    <ul class="button-wrapper">
-      <li>{previous && <a href={`/${previous.slug}`} rel="prev"><button>上一篇: {previous.data.title}</button></a>}</li>
-      <li>{next && <a href={`/${next.slug}`} rel="next"><button>下一篇: {next.data.title}</button></a>}</li>
+    <ul class="nav-links">
+      <li>{previous && <a href={`/${previous.slug}`} rel="prev">← 上一篇: {previous.data.title}</a>}</li>
+      <li>{next && <a href={`/${next.slug}`} rel="next">下一篇: {next.data.title} -></a>}</li>
     </ul>
     <GiscusComment slug={post.slug} />
   </Layout>

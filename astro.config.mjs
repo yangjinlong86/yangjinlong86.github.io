@@ -8,8 +8,7 @@ export default defineConfig({
   site: 'https://yangjinlong86.github.io',
   integrations: [sitemap()],
   markdown: {
-    // 用 prism 代码高亮，配原站的 prism-dark.scss 主题，保持视觉一致
-    syntaxHighlight: 'prism',
+    // Shiki 默认代码高亮（Astro 官方 blog 模板默认），github-dark 主题
     gfm: true,
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],

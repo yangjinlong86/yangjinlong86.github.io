@@ -1,0 +1,87 @@
+---
+import { siteName, menu, socialMedia } from '../consts';
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(href);
+};
+---
+<header>
+  <nav>
+    <h2><a href="/">{siteName}</a></h2>
+    <div class="internal-links">
+      {menu.map((item) => (
+        <a href={item.href} class={isActive(item.href) ? 'active' : ''}>{item.name}</a>
+      ))}
+    </div>
+    <div class="social-links">
+      {socialMedia.map((item) => (
+        <a href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.icon}>
+          <i class={`iconfont icon-${item.icon}`}></i>
+        </a>
+      ))}
+    </div>
+  </nav>
+</header>
+
+<style>
+  header {
+    margin: 0;
+    padding: 0 1em;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(var(--black), 5%);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 960px;
+    margin: 0 auto;
+    gap: 1em;
+    flex-wrap: wrap;
+  }
+  h2 {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: 700;
+  }
+  h2 a {
+    color: rgb(var(--black));
+    text-decoration: none;
+  }
+  h2 a:hover { color: var(--accent); }
+  .internal-links {
+    display: flex;
+    gap: 0.1em;
+    flex-wrap: wrap;
+  }
+  .internal-links a {
+    padding: 1em 0.6em;
+    color: rgb(var(--black));
+    text-decoration: none;
+    border-bottom: 4px solid transparent;
+  }
+  .internal-links a:hover { color: var(--accent); }
+  .internal-links a.active {
+    border-bottom-color: var(--accent);
+  }
+  .social-links {
+    display: flex;
+    gap: 0.6em;
+  }
+  .social-links a {
+    color: rgb(var(--gray));
+    display: flex;
+    text-decoration: none;
+  }
+  .social-links a:hover { color: var(--accent); }
+  .social-links .iconfont { font-size: 1.15rem; }
+  @media (max-width: 720px) {
+    .social-links { display: none; }
+    .internal-links a { padding: 0.8em 0.4em; font-size: 0.9em; }
+  }
+</style>
