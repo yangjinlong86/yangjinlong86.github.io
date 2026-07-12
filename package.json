@@ -13,7 +13,7 @@
     "gatsby-plugin-sass": "^6.4.0",
     "gatsby-plugin-sitemap": "^6.4.0",
     "gatsby-remark-autolink-headers": "^6.4.0",
-    "gatsby-remark-copy-linked-files": "^6.4.0",
+    "gatsby-remark-copy-linked-files": "^6.16.0",
     "gatsby-remark-highlight-code": "^3.3.0",
     "gatsby-remark-images": "^7.4.0",
     "gatsby-remark-katex": "^7.4.0",
