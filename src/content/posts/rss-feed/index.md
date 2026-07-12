@@ -1,6 +1,6 @@
 ---
 
-slug: "/rss-feed"
+slug: "rss-feed"
 
 description: "技术类RSS源订阅推荐"
 title: 中文技术类RSS源订阅推荐

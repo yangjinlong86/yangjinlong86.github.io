@@ -1,5 +1,5 @@
 ---
-slug: "/arts-39"
+slug: "arts-39"
 description: "本周ARTS包含LeetCode二叉树倾斜算法解析、微服务日志记录最佳实践。"
 title: ARTS 第39周：二叉树倾斜算法与微服务日志记录最佳实践
 date: 2019-05-11

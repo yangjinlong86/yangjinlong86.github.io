@@ -1,6 +1,6 @@
 ---
 
-slug: "/windows-exe-to-service"
+slug: "windows-exe-to-service"
 
 description: "Windows下把exe程序注册成服务"
 title: Windows下把exe程序注册成服务

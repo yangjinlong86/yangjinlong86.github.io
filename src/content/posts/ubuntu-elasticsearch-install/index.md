@@ -1,6 +1,6 @@
 ---
 
-slug: "/ubuntu-elasticsearch-install"
+slug: "ubuntu-elasticsearch-install"
 
 description: "ubuntu 安装 ElasticSearch 过程中的问题记录"
 title: ubuntu 安装 ElasticSearch 过程中的问题记录

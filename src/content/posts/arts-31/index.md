@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-31"
+slug: "arts-31"
 
 description: "本周ARTS包含LeetCode按奇偶排序数组算法解析、JVM快速代码技巧分享、Lombok简化日志开发详解，以及Windows 7 IE11页面空白问题解决。"
 title: ARTS 第31周：按奇偶排序数组算法、JVM快速代码技巧、Lombok日志开发与IE11页面空白问题解决

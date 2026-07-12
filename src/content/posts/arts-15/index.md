@@ -1,5 +1,5 @@
 ---
-slug: "/arts-15"
+slug: "arts-15"
 title: ARTS 第15周：数组去重算法、Kafka入门、负载均衡与思维阅读
 description: 本周ARTS包含LeetCode数组去重算法解析、Apache Kafka入门实践、Eureka负载均衡问题解决，以及高效学习思维和阅读方法分享。
 date: 2018-10-13

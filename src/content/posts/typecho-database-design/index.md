@@ -1,6 +1,6 @@
 ---
 
-slug: "/typecho-database-design"
+slug: "typecho-database-design"
 
 description: "学习 Typecho 公开的博客系统数据库设计"
 title: 【转载】Typecho数据库设计

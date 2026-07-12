@@ -1,6 +1,6 @@
 ---
 
-slug: "/enum-instead-const"
+slug: "enum-instead-const"
 
 description: "使用枚举替换常量类。"
 title: 使用枚举替换常量类

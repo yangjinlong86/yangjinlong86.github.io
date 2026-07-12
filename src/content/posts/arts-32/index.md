@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-32"
+slug: "arts-32"
 
 description: "本周ARTS包含LeetCode有序数组的平方算法解析、Readme驱动开发分享、Docker容器编码问题解决，以及开源项目选择与使用指南。"
 title: ARTS 第32周：有序数组的平方算法、Readme驱动开发、Docker编码问题与开源项目选择

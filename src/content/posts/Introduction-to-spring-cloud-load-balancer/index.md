@@ -1,6 +1,6 @@
 ---
 
-slug: "/Introduction-to-spring-cloud-load-balancer"
+slug: "Introduction-to-spring-cloud-load-balancer"
 
 description: "Spring Cloud Load Balancer 简介"
 title: Spring Cloud Load Balancer 简介

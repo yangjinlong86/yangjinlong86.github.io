@@ -1,5 +1,5 @@
 ---
-slug: "/arts-41"
+slug: "arts-41"
 description: "本周ARTS包含LeetCode二叉树前序遍历算法解析、GatsbyJS静态网站构建优势分析、旧金山漂泊生活分享。"
 title: ARTS 第41周：二叉树前序遍历算法、GatsbyJS静态网站与旧金山漂泊生活
 date: 2019-06-22

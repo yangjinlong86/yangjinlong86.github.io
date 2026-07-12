@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-28"
+slug: "arts-28"
 
 description: "本周ARTS包含LeetCode最大周长三角形算法解析、美丽的竞态条件文章分享、MySQL自带性能测试工具mysqlslap详解，以及Java Map集合的理解与实现。"
 title: "ARTS 第28周：最大周长三角形算法、美丽的竞态条件、MySQL性能测试工具mysqlslap与Java Map集合理解"

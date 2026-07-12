@@ -1,6 +1,6 @@
 ---
 
-slug: "/architecture-based-software-development-method-and-application"
+slug: "architecture-based-software-development-method-and-application"
 
 description: "2024年架构师备考论文"
 title: '论基于架构的软件开发方法及应用'

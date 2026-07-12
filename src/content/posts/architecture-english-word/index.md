@@ -1,6 +1,6 @@
 ---
 
-slug: "/architecture-english-word"
+slug: "architecture-english-word"
 
 description: "系统架构设计师英语词汇"
 title: "系统架构设计师-英语词汇"

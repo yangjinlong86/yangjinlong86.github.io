@@ -1,6 +1,6 @@
 ---
 
-slug: "/whenever"
+slug: "whenever"
 
 description: "[Tribes] Whenever guitar chords"
 title: "Whenever"

@@ -1,6 +1,6 @@
 ---
 
-slug: "/jwt-example"
+slug: "jwt-example"
 
 description: "使用spring-boot, spring security, jjtw 搭建的JWT示例项目"
 title: '[JWT] 基于SpringBoot的JSON Web Token使用示例'

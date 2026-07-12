@@ -1,6 +1,6 @@
 ---
 
-slug: "/aspect-oriented-programming"
+slug: "aspect-oriented-programming"
 
 description: "面向切面编程知识点整理。"
 title: 面向切面编程

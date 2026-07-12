@@ -1,5 +1,5 @@
 ---
-slug: "/x-forwarded-for-principle"
+slug: "x-forwarded-for-principle"
 description: "X-Forwarded-For (XFF) 原理详解：代理链如何传递客户端真实 IP，格式、解析、伪造风险与可信代理配置"
 title: "X-Forwarded-For (XFF) 原理详解"
 date: "2026-07-12 14:00:00"

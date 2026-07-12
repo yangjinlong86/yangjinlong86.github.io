@@ -1,6 +1,6 @@
 ---
 
-slug: "/reverse-proxy"
+slug: "reverse-proxy"
 
 description: "了解反向代理并使用Nginx实现"
 title: 反向代理

@@ -1,6 +1,6 @@
 ---
 
-slug: "/multi-thread-notes"
+slug: "multi-thread-notes"
 
 description: "Java线程和线程池基础知识。"
 title: Java 多线程

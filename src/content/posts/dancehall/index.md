@@ -1,6 +1,6 @@
 ---
 
-slug: "/dancehall"
+slug: "dancehall"
 
 description: "[Tribes] Dancehall guitar chords"
 title: "Dancehall"

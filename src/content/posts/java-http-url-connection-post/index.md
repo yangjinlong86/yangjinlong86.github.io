@@ -1,6 +1,6 @@
 ---
 
-slug: "/java-http-url-connection-post"
+slug: "java-http-url-connection-post"
 
 description: " JAVA HttpURLConnection Post方式提交传递参数"
 title: JAVA HttpURLConnection Post方式提交传递参数

@@ -1,6 +1,6 @@
 ---
 
-slug: "/englishman-on-sunset-boulevard"
+slug: "englishman-on-sunset-boulevard"
 
 description: "[Tribes] Englishman on Sunset Boulevard guitar chords"
 title: "Englishman on Sunset Boulevard"

@@ -1,6 +1,6 @@
 ---
 
-slug: "/free-ssl-certs"
+slug: "free-ssl-certs"
 
 description: "通过 Let's Encrypt 提供的 Certbot 免费申请并自动安装SSL证书。"
 title: 申请免费HTTPS证书

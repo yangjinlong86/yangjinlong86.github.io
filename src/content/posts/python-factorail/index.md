@@ -1,6 +1,6 @@
 ---
 
-slug: "/python-factorail"
+slug: "python-factorail"
 
 description: "本文 Python 两个经典递归：阶乘和幂"
 title: Python 两个经典递归：阶乘和幂

@@ -1,6 +1,6 @@
 ---
 
-slug: "/controller-yourself"
+slug: "controller-yourself"
 
 description: "技术无关，记一次情绪失控。"
 title: 我需要钝钝钝钝感力

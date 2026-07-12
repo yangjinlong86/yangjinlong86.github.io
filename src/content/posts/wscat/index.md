@@ -1,6 +1,6 @@
 ---
 
-slug: "/wscat"
+slug: "wscat"
 
 description: "通过 wscat，可以快速验证 WebSocket 服务器的连接、消息发送和接收功能，是开发和调试的实用工具。"
 title: "使用wscat进行WebSocket通信测试"

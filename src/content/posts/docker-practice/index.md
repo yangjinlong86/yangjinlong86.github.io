@@ -1,6 +1,6 @@
 ---
 
-slug: "/docker-practice"
+slug: "docker-practice"
 
 description: "Docker的基本用法。"
 title: Docker的基本用法

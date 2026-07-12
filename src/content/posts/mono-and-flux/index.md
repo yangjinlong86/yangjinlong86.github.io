@@ -1,6 +1,6 @@
 ---
 
-slug: "/mono-and-flux"
+slug: "mono-and-flux"
 
 description: "Mono 和 Flux 是 Java 中 Reactive 编程的核心元素，它们为处理异步操作提供了强大的抽象。"
 title: "Java 中的 Mono 和 Flux 的详细介绍及使用场景"

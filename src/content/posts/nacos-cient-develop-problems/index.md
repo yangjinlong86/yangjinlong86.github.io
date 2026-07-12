@@ -1,6 +1,6 @@
 ---
 
-slug: "/nacos-cient-develop-problems"
+slug: "nacos-cient-develop-problems"
 
 description: "在微服务架构中，Nacos 作为一款强大的服务发现与配置管理工具，被广泛应用。然而，在实际开发和部署过程中，可能会遇到 Nacos Client 获取不到 Nacos 服务端配置的问题。当出现这一情况时，首先要检查 Nacos 客户端配置的 Nacos Server 用户名、密码、namespace、group 是否正确。错误的认证信息会导致客户端无法通过服务端的身份验证，进而无法获取配置；而错误的 namespace 或 group 则会使客户端请求的配置路径错误，找不到对应的配置文件。完成这些基础检查后，可进一步围绕以下常见原因展开分析，并通过相应的解决方案，快速定位和解决问题。"
 title: "Nacos Client 获取不到 Nacos 服务端配置的常见原因与解决方案"

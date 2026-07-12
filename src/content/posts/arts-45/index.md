@@ -1,5 +1,5 @@
 ---
-slug: "/arts-45"
+slug: "arts-45"
 description: "本周ARTS包含CodeAbbey求和算法解析、React组件详解、Fedora系统内核更新与清理方法，以及Go泛型编程模式分享。"
 title: ARTS 第45周：求和算法、React组件、系统内核更新与Go泛型编程
 date: 2021-09-08

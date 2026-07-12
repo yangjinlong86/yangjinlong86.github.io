@@ -1,6 +1,6 @@
 ---
 
-slug: "/gatsby-learning"
+slug: "gatsby-learning"
 
 description: "Gatsby是个好东西，这玩意用了上瘾。"
 title: Gatsby 入门

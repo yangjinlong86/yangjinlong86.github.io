@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-19"
+slug: "arts-19"
 
 description: "本周ARTS包含LeetCode重排日志文件算法解析、大规模日志记录30个最佳实践分享、Ubuntu启动界面修改与Canal Message乱序消费问题解决，以及关于日志的那些事儿。"
 title: ARTS 第19周：重排日志文件算法、大规模日志记录最佳实践、Ubuntu启动界面修改与Canal Message乱序消费问题解决

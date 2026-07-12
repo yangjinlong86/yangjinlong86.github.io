@@ -1,6 +1,6 @@
 ---
 
-slug: "/sleepless-in-java"
+slug: "sleepless-in-java"
 
 description: "这本书很有意思，虽然有点旧，还是推荐阅读一下"
 title: 读《Java夜未眠》部分笔记

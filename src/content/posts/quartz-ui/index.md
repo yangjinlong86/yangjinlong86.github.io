@@ -1,6 +1,6 @@
 ---
 
-slug: "/quartz-ui"
+slug: "quartz-ui"
 
 description: "基于Quartz的定时任务UI组件"
 title: 基于Quartz的定时任务UI组件

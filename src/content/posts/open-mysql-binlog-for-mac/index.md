@@ -1,6 +1,6 @@
 ---
 
-slug: "/open-mysql-binlog-for-mac"
+slug: "open-mysql-binlog-for-mac"
 
 description: "Mac 下 MySQL 开启 binlog"
 title: Mac 下 MySQL 开启 binlog

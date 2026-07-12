@@ -1,6 +1,6 @@
 ---
 
-slug: "/principles-of-good-programming"
+slug: "principles-of-good-programming"
 
 description: "虽然老生常谈，但是十分有用。"
 title: 编程原则

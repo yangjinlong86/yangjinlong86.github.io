@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-22"
+slug: "arts-22"
 
 description: "本周ARTS包含LeetCode只出现一次的数字算法解析、Stack Overflow for Teams介绍、Spring Cloud Ribbon负载均衡重试机制详解，以及ByteScout SQL Trainer分享。"
 title: ARTS 第22周：只出现一次的数字算法、Stack Overflow for Teams、Spring Cloud Ribbon负载均衡重试机制与ByteScout SQL Trainer

@@ -1,6 +1,6 @@
 ---
 
-slug: "/remembering-haoel"
+slug: "remembering-haoel"
 
 description: "纪念皓哥"
 title: 纪念皓哥

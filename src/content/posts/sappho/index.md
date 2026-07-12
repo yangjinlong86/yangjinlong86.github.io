@@ -1,6 +1,6 @@
 ---
 
-slug: "/sappho"
+slug: "sappho"
 
 description: "[Tribes] Sappho guitar chords"
 title: "Sappho"

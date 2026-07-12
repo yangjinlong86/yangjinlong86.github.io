@@ -1,6 +1,6 @@
 ---
 
-slug: "/spring-application-event"
+slug: "spring-application-event"
 
 description: "在Spring应用程序中使用`ApplicationEvent`来实现事件驱动的编程，使得不同组件之间能够以松耦合的方式进行通信和协作。"
 title: "Spring中ApplicationEvent的原理和使用方法"

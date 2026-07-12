@@ -1,6 +1,6 @@
 ---
 
-slug: "/log-stacktrace-in-java"
+slug: "log-stacktrace-in-java"
 
 description: "在 Java 中，希望使用 `log.error()` 打印异常的完整堆栈信息，记录在日志文件里，而不是打印在控制台，如果直接记录`ex.toString()`或者`ex.getMessage()`，会丢失堆栈信息。"
 title: "Java中如何使用log.error打印出异常的堆栈信息"

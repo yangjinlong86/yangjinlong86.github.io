@@ -1,5 +1,5 @@
 ---
-slug: "/software-architecture-summarize"
+slug: "software-architecture-summarize"
 description: 系统架构设计师考试要点：软件架构的概述和构件。
 title: 软件架构的概述和构件
 date: "2023-06-27 15:17:00"

@@ -1,6 +1,6 @@
 ---
 
-slug: "/architectrue-distributed-design-paper"
+slug: "architectrue-distributed-design-paper"
 
 description: "系统架构设计师的备考论文练习"
 title: 论分布式系统设计与实现

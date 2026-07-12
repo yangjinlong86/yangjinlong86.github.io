@@ -1,5 +1,5 @@
 ---
-slug: "/arts-40"
+slug: "arts-40"
 description: "本周ARTS包含LeetCode数组配对和工资交换算法解析、Nginx访问日志实时监控分析方案。"
 title: ARTS 第40周：数组配对与工资交换算法、Nginx日志实时监控分析
 date: 2019-06-16

@@ -1,6 +1,6 @@
 ---
 
-slug: "/apache-kafka-quickstart"
+slug: "apache-kafka-quickstart"
 
 description: "Kafka tutorial"
 title: Apache Kafka Quickstart

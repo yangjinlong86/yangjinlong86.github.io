@@ -1,6 +1,6 @@
 ---
 
-slug: "/graph-algorithms"
+slug: "graph-algorithms"
 
 description: "图相关基础、广度优先搜索、深度优先搜索、迪克斯特拉算法以及贝尔曼福德算法。"
 title: 常用的图算法

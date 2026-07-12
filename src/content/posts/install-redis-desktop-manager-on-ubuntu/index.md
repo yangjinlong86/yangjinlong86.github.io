@@ -1,6 +1,6 @@
 ---
 
-slug: "/install-redis-desktop-manager-on-ubuntu"
+slug: "install-redis-desktop-manager-on-ubuntu"
 
 description: "Install Redis Desktop Manager On Ubuntu 18.04."
 title: Install Redis Desktop Manager On Ubuntu 18.04 

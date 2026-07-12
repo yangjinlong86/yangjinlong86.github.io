@@ -1,6 +1,6 @@
 ---
 
-slug: "/halfway-home"
+slug: "halfway-home"
 
 description: "[Tribes] Halfway Home guitar chords"
 title: "Halfway Home"

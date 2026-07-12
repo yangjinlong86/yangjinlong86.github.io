@@ -1,6 +1,6 @@
 ---
 
-slug: "/10-hex-and-binary"
+slug: "10-hex-and-binary"
 
 description: "介绍十进制和二进制数值转换方法，同理可转换为其他进制。"
 title: 十进制和二进制数值转换

@@ -1,5 +1,5 @@
 ---
-slug: "/arts-44"
+slug: "arts-44"
 description: "本周ARTS包含LeetCode最后一个单词长度算法解析、Java字节码入门、剪贴板工具使用技巧，以及持续练习的重要性分享。"
 title: ARTS 第44周：最后一个单词长度算法、Java字节码入门、剪贴板工具与持续练习
 date: 2021-09-08

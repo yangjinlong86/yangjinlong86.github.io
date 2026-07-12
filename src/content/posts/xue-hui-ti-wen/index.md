@@ -1,6 +1,6 @@
 ---
 
-slug: "/xue-hui-ti-wen"
+slug: "xue-hui-ti-wen"
 
 description: "在什么情境下，发生了什么冲突，这种冲突引发了什么疑问，最终这个疑问是如何解决的"
 title: 学会提问

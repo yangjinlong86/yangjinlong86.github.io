@@ -1,6 +1,6 @@
 ---
 
-slug: "/spring-kafka-demo"
+slug: "spring-kafka-demo"
 
 description: "使用spring-kafka KafkaTemplate 向指定的 topic 发送消息"
 title: "Spring-kafka简单使用示例"

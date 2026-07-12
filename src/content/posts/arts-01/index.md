@@ -1,5 +1,5 @@
 ---
-slug: "/arts-01"
+slug: "arts-01"
 title: ARTS 第1周：Two Sum、数据库优化、框架技巧与架构思考
 date: 2018-07-07
 description: "本周ARTS包含LeetCode算法题Two Sum的解析、MySQL查询优化的深入理解、SpringBoot与MyBatis常见问题解决技巧，以及Java设计模式和架构师成长分享。"

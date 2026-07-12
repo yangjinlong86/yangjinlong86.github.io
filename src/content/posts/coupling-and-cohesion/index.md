@@ -1,6 +1,6 @@
 ---
 
-slug: "/coupling-and-cohesion"
+slug: "coupling-and-cohesion"
 
 description: "内聚性和耦合性Wiki"
 title: 内聚性和耦合性

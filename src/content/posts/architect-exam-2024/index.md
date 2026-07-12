@@ -1,5 +1,5 @@
 ---
-slug: "/architect-exam-2024"
+slug: "architect-exam-2024"
 description: "2024年系统架构设计师考试经验和心得分享"
 title: '2024年系统架构设计师考试经验和心得分享'
 date: "2024-07-14 21:53:00"

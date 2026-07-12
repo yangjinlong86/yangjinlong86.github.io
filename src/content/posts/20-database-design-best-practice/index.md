@@ -1,6 +1,6 @@
 ---
 
-slug: "/20-database-design-best-practice"
+slug: "20-database-design-best-practice"
 
 description: "20条数据库设计最佳实践。"
 title: 20条数据库设计最佳实践

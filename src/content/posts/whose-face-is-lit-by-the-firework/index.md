@@ -1,6 +1,6 @@
 ---
 
-slug: "/whose-face-is-lit-by-the-firework"
+slug: "whose-face-is-lit-by-the-firework"
 
 description: "回忆中学时期听的一些流行音乐"
 title: "磁带机时代"

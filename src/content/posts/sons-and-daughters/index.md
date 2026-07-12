@@ -1,6 +1,6 @@
 ---
 
-slug: "/sons-and-daughters"
+slug: "sons-and-daughters"
 
 description: "[Tribes] Sons and Daughters guitar chords"
 title: "Sons and Daughters"

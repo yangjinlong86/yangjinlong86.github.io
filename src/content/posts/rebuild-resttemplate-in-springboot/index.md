@@ -1,6 +1,6 @@
 ---
 
-slug: "/rebuild-resttemplate-in-springboot"
+slug: "rebuild-resttemplate-in-springboot"
 
 description: "Spring Bean 花样玩法，监听配置变化后销毁并重新注册Bean"
 title: "在Springboot中重建RestTemplate Bean"

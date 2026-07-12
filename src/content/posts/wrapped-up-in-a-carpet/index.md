@@ -1,6 +1,6 @@
 ---
 
-slug: "/wrapped-up-in-a-carpet"
+slug: "wrapped-up-in-a-carpet"
 
 description: "[Tribes] Wrapped Up in a Carpet guitar chords"
 title: "Wrapped Up in a Carpet"

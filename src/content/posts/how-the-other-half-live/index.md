@@ -1,6 +1,6 @@
 ---
 
-slug: "/how-the-other-half-live"
+slug: "how-the-other-half-live"
 
 description: "[Tribes] How the Other Half Live guitar chords"
 title: "How the Other Half Live"

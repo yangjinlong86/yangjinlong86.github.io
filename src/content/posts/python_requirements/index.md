@@ -1,6 +1,6 @@
 ---
 
-slug: "/python_requirements"
+slug: "python_requirements"
 
 description: "在 Python 项目中生成 requirements.txt 文件是一个常见的需求，用于记录项目所依赖的所有包及其版本。这样可以确保在其他环境中也能正确安装相同的依赖。以下是一些常用的方法来生成 requirements.txt 文件"
 title: 为Python项目生成requirements.txt

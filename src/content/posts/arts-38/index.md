@@ -1,5 +1,5 @@
 ---
-slug: "/arts-38"
+slug: "arts-38"
 description: "本周ARTS包含LeetCode合并二叉树算法解析、良好编程原则分享、依赖倒置原则详解，以及《Don't Make Me Think》读后感。"
 title: ARTS 第38周：合并二叉树算法、良好编程原则、依赖倒置与可用性设计
 date: 2019-05-04

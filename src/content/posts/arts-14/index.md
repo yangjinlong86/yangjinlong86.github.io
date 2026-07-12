@@ -1,5 +1,5 @@
 ---
-slug: "/arts-14"
+slug: "arts-14"
 title: ARTS 第14周：合并两个有序链表的 Java 解法、CAP 理论
 date: 2018-10-06
 description: "Algorithm 部分为合并两个有序链表的 Java 解法，Review 部分为 CAP 定理相关内容，Tip 部分为空，Share 部分为一篇关于抱怨的短文"

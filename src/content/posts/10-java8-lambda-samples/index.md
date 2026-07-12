@@ -1,6 +1,6 @@
 ---
 
-slug: "/10-java8-lambda-samples"
+slug: "10-java8-lambda-samples"
 
 description: "本文由 ImportNew - lemeilleur 翻译自 javarevisited。"
 title: 【转载】Java8 lambda表达式10个示例

@@ -1,5 +1,5 @@
 ---
-slug: "/arts-46"
+slug: "arts-46"
 title: ARTS 第46周：二进制相加算法、Java17新特性、RabbitMQ消息确认机制
 description: 本周ARTS包含LeetCode二进制相加算法解析、Java11到Java17新特性详解、RabbitMQ消息确认机制问题排查与解决，以及纪念陈皓老师的内容分享。
 date: 2023-06-02

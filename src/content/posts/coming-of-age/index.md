@@ -1,6 +1,6 @@
 ---
 
-slug: "/coming-of-age"
+slug: "coming-of-age"
 
 description: "[Tribes] Coming of Age guitar chords"
 title: "Coming of Age"

@@ -1,6 +1,6 @@
 ---
 
-slug: "/bye-june"
+slug: "bye-june"
 
 description: "我的职业生涯也经历了被拖欠工资的情况，真的是个超刺激的体验。"
 title: 你好 七月！

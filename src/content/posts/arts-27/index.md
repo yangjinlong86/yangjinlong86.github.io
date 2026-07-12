@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-27"
+slug: "arts-27"
 
 description: "本周ARTS包含LeetCode转换小写算法解析、Netty 4.x用户指南分享、Python实现相似图片搜索详解，以及感知哈希算法原理介绍。"
 title: "ARTS 第27周：转换小写算法、Netty 4.x用户指南、Python实现相似图片搜索与感知哈希算法原理"

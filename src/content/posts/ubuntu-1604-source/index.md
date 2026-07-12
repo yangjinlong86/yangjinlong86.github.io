@@ -1,6 +1,6 @@
 ---
 
-slug: "/ubuntu-1604-source"
+slug: "ubuntu-1604-source"
 
 description: "aliyun mirrors for ubuntu 1604"
 title: ubuntu 1604 apt source

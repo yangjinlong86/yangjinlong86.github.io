@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-13"
+slug: "arts-13"
 
 description: "本周ARTS包含LeetCode有效的括号算法解析、Java动态代理详解、括号匹配解题思路总结，以及个人技术成长与项目经验分享。"
 title: ARTS 第13周：有效的括号算法、Java动态代理、近期技术成长

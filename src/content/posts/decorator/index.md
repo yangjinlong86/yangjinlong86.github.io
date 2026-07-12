@@ -1,6 +1,6 @@
 ---
 
-slug: "/decorator"
+slug: "decorator"
 
 description: "本文以西游记中的“真假美猴王”为例，一起温习一下装饰器模式的使用场景及具体实现过程。"
 title: "装饰器模式之真假美猴王"

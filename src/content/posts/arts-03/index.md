@@ -1,5 +1,5 @@
 ---
-slug: "/arts-03"
+slug: "arts-03"
 title: "ARTS 第3周：无重复字符最长子串算法、Jenkins Pipeline最佳实践、CI/CD自动化部署与架构分享"
 description: "本周ARTS包含LeetCode无重复字符最长子串算法解析、Jenkins Pipeline插件10大最佳实践、基于Jenkins Pipeline的CI/CD自动化部署实践，以及完整的自动化部署架构分享。"
 date: 2018-07-22

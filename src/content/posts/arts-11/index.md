@@ -1,5 +1,5 @@
 ---
-slug: "/arts-11"
+slug: "arts-11"
 description: "本周ARTS包含LeetCode宝石与石头算法解析、Java策略模式应用与实现、Docker化canal-server部署配置，以及策略设计模式的优缺点和使用场景分析。"
 title: ARTS 第11周：宝石与石头算法、策略模式、Docker化canal-server
 date: 2018-09-15

@@ -1,5 +1,5 @@
 ---
-slug: "/86-wubi-jian-ma"
+slug: "86-wubi-jian-ma"
 description: "本文详细列出了86版五笔输入法的一级简码和二级简码表，帮助提高输入效率。"
 title: "86版五笔简码表：一级简码与二级简码速查指南"
 date: 2025-06-16

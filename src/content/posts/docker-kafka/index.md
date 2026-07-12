@@ -1,6 +1,6 @@
 ---
 
-slug: "/docker-kafka"
+slug: "docker-kafka"
 
 description: "帮助在本地环境中使用 Docker 来搭建一个简单的 Kafka 服务端，包括 ZooKeeper。"
 title: "使用 Docker 搭建 Kafka 服务端"

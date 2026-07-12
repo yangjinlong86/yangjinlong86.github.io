@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-33"
+slug: "arts-33"
 
 description: "本周ARTS包含LeetCode翻转图像算法解析、倒排索引分享、聚合模式详解，以及数据库设计范式化与反范式化探讨。"
 title: ARTS 第33周：翻转图像算法、倒排索引、聚合模式与数据库设计范式化

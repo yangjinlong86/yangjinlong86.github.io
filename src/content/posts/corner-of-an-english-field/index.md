@@ -1,6 +1,6 @@
 ---
 
-slug: "/corner-of-an-english-field"
+slug: "corner-of-an-english-field"
 
 description: "[Tribes] Corner of an English Field guitar chords"
 title: "Corner of an English Field"

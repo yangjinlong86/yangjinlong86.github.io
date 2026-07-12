@@ -1,6 +1,6 @@
 ---
 
-slug: "/mac-uninstall-postgresql"
+slug: "mac-uninstall-postgresql"
 
 description: " Mac 卸载 postgresql"
 title: Mac 卸载 postgresql

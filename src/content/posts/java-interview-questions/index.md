@@ -1,6 +1,6 @@
 ---
 
-slug: "/java-interview-questions"
+slug: "java-interview-questions"
 
 description: "这些是我被问到的面试题，比较基础。"
 title: 几道Java相关的面试题

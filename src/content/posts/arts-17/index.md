@@ -1,5 +1,5 @@
 ---
-slug: "/arts-17"
+slug: "arts-17"
 
 description: "本周ARTS包含LeetCode移除元素算法解析、Java 9模块系统分享、Mycat原理详解，以及Kafka和分库分表学习心得。"
 title: ARTS 第17周：移除元素算法、Java 9模块系统、Mycat原理与Kafka和分库分表学习心得

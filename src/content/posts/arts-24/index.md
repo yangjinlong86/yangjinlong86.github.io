@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-24"
+slug: "arts-24"
 
 description: "本周ARTS包含LeetCode实现strStr算法解析、Netty User guide分享、使用datax将mysql数据导入elasticsearch详解，以及Netty 4.x用户指南中文翻译。"
 title: ARTS 第24周：实现strStr算法、Netty User guide、使用datax将mysql数据导入elasticsearch与Netty 4.x用户指南中文翻译

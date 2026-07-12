@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-21"
+slug: "arts-21"
 
 description: "本周ARTS包含LeetCode删除排序列算法解析、Spring Boot应用优雅关闭及Docker容器环境下-t参数设置分享、Tomcat和Undertow的Web服务器优雅关闭实现代码详解，以及Spring Cloud Ribbon负载均衡使用。"
 title: ARTS 第21周：删除排序列算法、Spring Boot优雅关闭、Web服务器优雅关闭实现与Spring Cloud Ribbon负载均衡

@@ -1,5 +1,5 @@
 ---
-slug: "/arts-05"
+slug: "arts-05"
 
 description: "本周ARTS包含LeetCode最长回文子串算法解析、动态规划入门与解题步骤、Docker Spring Boot项目使用宿主机配置文件的方法，以及Jenkins Pipeline脚本详解。"
 title: "ARTS 第5周：回文子串算法、动态规划入门、Docker配置与Jenkins Pipeline详解"

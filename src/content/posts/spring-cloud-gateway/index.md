@@ -1,6 +1,6 @@
 ---
 
-slug: "/spring-cloud-gateway"
+slug: "spring-cloud-gateway"
 
 description: "Spring Cloud Gateway 是基于 Spring 6、Spring Boot 3 和 Project Reactor 的网关，本文探索其主要功能。"
 title: "Spring Cloud Gateway"

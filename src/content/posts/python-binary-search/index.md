@@ -1,6 +1,6 @@
 ---
 
-slug: "/python-binary-search"
+slug: "python-binary-search"
 
 description: "Python 另一个经典递归：二分法查找。"
 title: Python 另一个经典递归：二分法查找

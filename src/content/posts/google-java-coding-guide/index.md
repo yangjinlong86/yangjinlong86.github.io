@@ -1,6 +1,6 @@
 ---
 
-slug: "/google-java-coding-guide"
+slug: "google-java-coding-guide"
 
 description: "这没撒好说的，好好学习遵守就对了。"
 title: 【转载】Google Java编程风格指南

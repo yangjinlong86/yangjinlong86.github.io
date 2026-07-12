@@ -1,5 +1,5 @@
 ---
-slug: "/arts-43"
+slug: "arts-43"
 description: "本周ARTS包含LeetCode正则表达式匹配算法解析。"
 title: ARTS 第43周：正则表达式匹配算法
 date: 2019-10-03

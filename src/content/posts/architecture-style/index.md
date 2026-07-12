@@ -1,6 +1,6 @@
 ---
 
-slug: "/architecture-style"
+slug: "architecture-style"
 
 description: "系统架构设计师论文"
 title: 论软件系统架构风格

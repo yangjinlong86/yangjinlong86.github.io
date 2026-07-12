@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-18"
+slug: "arts-18"
 
 description: "本周ARTS包含LeetCode反转字符串算法解析、数据库分片架构分享、Sharding-Sphere分库分表框架详解，以及MyCat分库分表实践分析。"
 title: ARTS 第18周：反转字符串算法、数据库分片架构、Sharding-Sphere分库分表框架与MyCat分库分表实践

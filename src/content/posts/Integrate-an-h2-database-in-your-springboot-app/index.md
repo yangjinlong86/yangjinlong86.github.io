@@ -1,6 +1,6 @@
 ---
 
-slug: "/Integrate-an-h2-database-in-your-springboot-app"
+slug: "Integrate-an-h2-database-in-your-springboot-app"
 
 description: "Integrate an H2 Database in Your Spring Boot App。"
 title: Integrate an H2 Database in Your Spring Boot App

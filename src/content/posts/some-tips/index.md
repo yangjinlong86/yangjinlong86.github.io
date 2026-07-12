@@ -1,6 +1,6 @@
 ---
 
-slug: "/some-tips"
+slug: "some-tips"
 
 description: "2018年在云图用到的技术"
 title: 云图web项目技术栈盘点

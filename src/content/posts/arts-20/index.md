@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-20"
+slug: "arts-20"
 
 description: "本周ARTS包含LeetCode最近请求次数算法解析、Java线程池使用示例、线程池饱和策略详解，以及线程池大小设置方法。"
 title: ARTS 第20周：最近请求次数算法、Java线程池使用、线程池饱和策略与线程池大小设置

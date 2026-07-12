@@ -1,6 +1,6 @@
 ---
 
-slug: "/strongloop-compare-with-pm2-and-forever"
+slug: "strongloop-compare-with-pm2-and-forever"
 
 description: "StrongLoop compare with pm2 and Forever"
 title: StrongLoop compare with pm2 and Forever

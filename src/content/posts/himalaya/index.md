@@ -1,6 +1,6 @@
 ---
 
-slug: "/himalaya"
+slug: "himalaya"
 
 description: "[Tribes] Himalaya guitar chords"
 title: "Himalaya"

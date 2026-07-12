@@ -1,6 +1,6 @@
 ---
 
-slug: "/ssh-proxy"
+slug: "ssh-proxy"
 
 description: "直接使用命令行ssh开启代理服务"
 title: 开启ssh代理服务

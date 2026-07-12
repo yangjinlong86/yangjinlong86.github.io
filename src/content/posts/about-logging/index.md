@@ -1,5 +1,5 @@
 ---
-slug: "/about-logging"
+slug: "about-logging"
 description: "左耳听风ARTS活动的一次作业，得到了皓哥的表扬，但还是差很多内容。"
 title: 关于日志的那些事儿
 date: "2018-11-12 07:25:47.676+00"

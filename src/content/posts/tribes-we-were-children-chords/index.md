@@ -1,6 +1,6 @@
 ---
 
-slug: "/tribes-we-were-children-chords"
+slug: "tribes-we-were-children-chords"
 
 description: "[Tribes] We Were Children 吉他和弦谱"
 title: We Were Children

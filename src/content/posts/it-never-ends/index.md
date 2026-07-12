@@ -1,6 +1,6 @@
 ---
 
-slug: "/it-never-ends"
+slug: "it-never-ends"
 
 description: "[Tribes] It Never Ends guitar chords"
 title: "It Never Ends"

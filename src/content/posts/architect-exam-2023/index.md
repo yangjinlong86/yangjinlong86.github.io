@@ -1,6 +1,6 @@
 ---
 
-slug: "/architect-exam-2023"
+slug: "architect-exam-2023"
 
 description: "2023年参加架构师考试后的一些感想"
 title: '2023年参加架构师考试后的一些感想'

@@ -1,5 +1,5 @@
 ---
-slug: "/arts-10"
+slug: "arts-10"
 description: "本周ARTS包含LeetCode罗马数字转整数算法解析、Apache Commons Chain框架应用与责任链模式详解、Web存储API sessionStorage和localStorage的使用区别，以及责任链设计模式的实践案例。"
 title: ARTS 第10周：罗马数字转整数、Apache Commons Chain、Web存储与责任链模式
 date: 2018-09-08

@@ -1,6 +1,6 @@
 ---
 
-slug: "/apache-commons-codec"
+slug: "apache-commons-codec"
 
 description: "Apache Commons Codec 加密解密，Java代码示例。"
 title: Apache Commons Codec 加密解密

@@ -1,6 +1,6 @@
 ---
 
-slug: "/blueutil"
+slug: "blueutil"
 
 description: "我希望开机后自动连接小米蓝牙音箱，在MAC OSX的设置界面，没有找到相关的设置。于是在网上找到了 blueutil，分分钟轻松搞定。"
 title: "MAC OSX 开机自动连接蓝牙音箱"

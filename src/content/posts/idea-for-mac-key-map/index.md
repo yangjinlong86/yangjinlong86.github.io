@@ -1,6 +1,6 @@
 ---
 
-slug: "/idea-for-mac-key-map"
+slug: "idea-for-mac-key-map"
 
 description: "快捷键太多了，当个速查表用吧"
 title: 【转载】IntelliJ IDEA For Mac 快捷键

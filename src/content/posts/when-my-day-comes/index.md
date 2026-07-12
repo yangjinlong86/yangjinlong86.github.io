@@ -1,6 +1,6 @@
 ---
 
-slug: "/when-my-day-comes"
+slug: "when-my-day-comes"
 
 description: "[Tribes] When My Day Comes guitar chords"
 title: "When My Day Comes"

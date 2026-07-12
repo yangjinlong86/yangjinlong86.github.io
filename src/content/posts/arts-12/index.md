@@ -1,5 +1,5 @@
 ---
-slug: "/arts-12"
+slug: "arts-12"
 description: "本周ARTS包含LeetCode最长公共前缀算法解析、代理设计模式详解与应用、Springboot项目打包配置问题解决，以及静态代理模式的实践分享。"
 title: ARTS 第12周：最长公共前缀算法、代理模式、Springboot打包配置
 date: 2018-09-22

@@ -1,6 +1,6 @@
 ---
 
-slug: "/basic-of-network"
+slug: "basic-of-network"
 
 description: "介绍常见的网络协议、OSI网络参考模型以及相关的网络硬件。"
 title: 必须要掌握的网络通信原理

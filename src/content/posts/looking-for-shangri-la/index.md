@@ -1,6 +1,6 @@
 ---
 
-slug: "/looking-for-shangri-la"
+slug: "looking-for-shangri-la"
 
 description: "[Tribes] Looking for Shangri-La guitar tab (solo)"
 title: "Looking for Shangri-La"

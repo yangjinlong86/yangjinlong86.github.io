@@ -1,6 +1,6 @@
 ---
 
-slug: "/jenkins-ci"
+slug: "jenkins-ci"
 
 description: "Jenkins持续集成"
 title: Jenkins持续集成

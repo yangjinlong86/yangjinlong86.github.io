@@ -1,6 +1,6 @@
 ---
 
-slug: "/what-is-jaas"
+slug: "what-is-jaas"
 
 description: "JAAS配置是Kafka客户端实现安全认证的核心机制，通过指定登录模块和凭证信息，确保客户端能够合法访问Kafka集群。不同的认证机制（如PLAIN、SCRAM、Kerberos）对应不同的JAAS配置格式，需根据实际环境选择合适的配置方式。"
 title: "JAAS是什么"

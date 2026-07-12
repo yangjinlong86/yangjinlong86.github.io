@@ -1,6 +1,6 @@
 ---
 
-slug: "/get-some-healing"
+slug: "get-some-healing"
 
 description: "[Tribes] Get Some Healing guitar chords"
 title: "Get Some Healing"

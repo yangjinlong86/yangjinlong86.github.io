@@ -1,6 +1,6 @@
 ---
 
-slug: "/goaccess-show-cn-and-location"
+slug: "goaccess-show-cn-and-location"
 
 description: "GoAccess 是轻量级日志分析工具，支持实时解析 Nginx、Apache 等日志，生成交互式 HTML 报告，含访问统计、用户来源等可视化数据。本文主要介绍如何将goaccess设置为中文报告并显示访客地理位置。"
 title: "goaccess设置为中文报告并显示访客地理位置"

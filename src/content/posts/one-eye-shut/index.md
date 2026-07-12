@@ -1,6 +1,6 @@
 ---
 
-slug: "/one-eye-shut"
+slug: "one-eye-shut"
 
 description: "[Tribes] One Eye Shut guitar chords"
 title: "One Eye Shut"

@@ -1,5 +1,5 @@
 ---
-slug: "/arts-06"
+slug: "arts-06"
 date: 2018-08-11
 title: "ARTS 第6周：ZigZag转换算法、Chrome安全策略、Docker挂载与负载均衡架构"
 description: "本周ARTS包含LeetCode ZigZag转换算法解析、Google Chrome标记HTTP网站为不安全的分析、Docker容器多目录挂载技巧，以及基于阿里负载均衡和Nginx的系统架构分享。"

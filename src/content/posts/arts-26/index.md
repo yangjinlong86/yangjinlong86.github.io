@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-26"
+slug: "arts-26"
 
 description: "本周ARTS包含LeetCode唯一电子邮件地址算法解析、Netty 4.x用户指南分享、Python爬取当当图书信息详解，以及专业精神与保持思考习惯的感悟。"
 title: "ARTS 第26周：唯一电子邮件地址算法、Netty 4.x用户指南、Python爬取当当图书信息与专业精神和保持思考习惯感悟"

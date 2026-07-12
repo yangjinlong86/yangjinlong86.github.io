@@ -1,6 +1,6 @@
 ---
 
-slug: "/operating-system-knowledge"
+slug: "operating-system-knowledge"
 
 description: "系统架构设计师操作系统考点总结"
 title: "系统架构设计师-操作系统考点总结"

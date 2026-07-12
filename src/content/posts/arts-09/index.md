@@ -1,5 +1,5 @@
 ---
-slug: "/arts-09"
+slug: "arts-09"
 title: "ARTS 第9周：回文数算法、命令模式解析、Vue与Nginx配置技巧"
 description: "本周ARTS包含LeetCode回文数算法解析、Java命令模式应用与实例分析、以及Vue项目Linux环境部署和Nginx配置优化技巧。"
 summary: "本周ARTS包含LeetCode回文数算法解析、Java命令模式应用与实例分析、以及Vue项目Linux环境部署和Nginx配置优化技巧。"

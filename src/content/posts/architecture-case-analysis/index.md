@@ -1,6 +1,6 @@
 ---
 
-slug: "/architecture-case-analysis"
+slug: "architecture-case-analysis"
 
 description: "系统架构设计案例分析"
 title: "系统架构设计师-案例分析"

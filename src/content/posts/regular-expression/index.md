@@ -1,6 +1,6 @@
 ---
 
-slug: "/regular-expression"
+slug: "regular-expression"
 
 description: "正则表达式"
 title: 正则表达式

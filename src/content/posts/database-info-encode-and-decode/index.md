@@ -1,6 +1,6 @@
 ---
 
-slug: "/database-info-encode-and-decode"
+slug: "database-info-encode-and-decode"
 
 description: "一些项目会要求不能出现明文密码，简单三步，实现配置文件里的用户名和密码加密。"
 title: Spring 数据库密码加密

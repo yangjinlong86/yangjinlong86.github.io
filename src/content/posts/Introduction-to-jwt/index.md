@@ -1,6 +1,6 @@
 ---
 
-slug: "/Introduction-to-jwt"
+slug: "Introduction-to-jwt"
 
 description: "JSON Web Token 简介"
 title: "[JWT] JSON Web Token 简介"

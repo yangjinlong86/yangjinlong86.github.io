@@ -1,6 +1,6 @@
 ---
 
-slug: "/mac-osx-ruby-upgrade"
+slug: "mac-osx-ruby-upgrade"
 
 description: "Mac下升级ruby"
 title: Mac 下 ruby 升级

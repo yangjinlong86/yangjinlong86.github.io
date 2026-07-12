@@ -1,6 +1,6 @@
 ---
 
-slug: "/byte-buddy"
+slug: "byte-buddy"
 
 description: "使用 Byte Buddy 操作和新建Java类，以及拦截方法调用"
 title: "Byte Buddy"

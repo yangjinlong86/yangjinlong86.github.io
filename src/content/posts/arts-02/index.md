@@ -1,5 +1,5 @@
 ---
-slug: "/arts-02"
+slug: "arts-02"
 title: "ARTS 第2周：链表加法算法、代码审查最佳实践、OSS对象列举与数据库设计"
 description: "本周ARTS包含LeetCode链表加法问题解析、代码审查最佳实践探讨、阿里云OSS对象列举实现技巧，以及20条数据库设计最佳实践分享。"
 date: 2018-07-15

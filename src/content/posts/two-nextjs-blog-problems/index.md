@@ -1,6 +1,6 @@
 ---
 
-slug: "/two-nextjs-blog-problems"
+slug: "two-nextjs-blog-problems"
 
 description: "半夜想起网站还有问题没解决，挑灯疯狂Google，终于找到了解决办法。"
 title: "Tailwind Nextjs Starter Blog 的两个配置问题"

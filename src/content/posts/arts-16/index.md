@@ -1,6 +1,6 @@
 ---
 
-slug: "/arts-16"
+slug: "arts-16"
 
 description: "本周ARTS包含LeetCode单词拆分算法解析、Kafka客户端操作封装分享、Jenkins Pipeline定时清除Docker镜像详解，以及分库分表策略探讨。"
 title: ARTS 第16周：单词拆分算法、Kafka客户端操作封装、Jenkins Pipeline定时清除Docker镜像与分库分表策略

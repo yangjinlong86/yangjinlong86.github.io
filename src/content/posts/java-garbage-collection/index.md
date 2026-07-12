@@ -1,6 +1,6 @@
 ---
 
-slug: "/java-garbage-collection"
+slug: "java-garbage-collection"
 
 description: "Java 垃圾收集器"
 title: Java 垃圾收集器

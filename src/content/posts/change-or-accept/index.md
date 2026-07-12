@@ -1,6 +1,6 @@
 ---
 
-slug: "/change-or-accept"
+slug: "change-or-accept"
 
 description: "无关技术，少抱怨，提高情商"
 title: 不能改变，那就接受

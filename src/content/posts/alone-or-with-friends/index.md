@@ -1,6 +1,6 @@
 ---
 
-slug: "/alone-or-with-friends"
+slug: "alone-or-with-friends"
 
 description: "[Tribes] Alone or With Friends guitar chords"
 title: "Alone or With Friends"

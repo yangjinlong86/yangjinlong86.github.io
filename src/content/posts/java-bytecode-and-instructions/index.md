@@ -1,6 +1,6 @@
 ---
 
-slug: "/java-bytecode-and-instructions"
+slug: "java-bytecode-and-instructions"
 
 description: "理解字节码以及理解Java编译器如何生成Java字节码与学习汇编知识对于C/C++程序员有一样的意义。"
 title: Java字节码和指令集

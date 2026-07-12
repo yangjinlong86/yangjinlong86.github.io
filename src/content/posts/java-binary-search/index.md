@@ -1,6 +1,6 @@
 ---
 
-slug: "/java-binary-search"
+slug: "java-binary-search"
 
 description: "Java实现二分查找法。"
 title: Java 二分查找法

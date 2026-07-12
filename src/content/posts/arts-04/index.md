@@ -1,5 +1,5 @@
 ---
-slug: "/arts-04"
+slug: "arts-04"
 title: "ARTS 第4周：两数组中位数算法、Docker入门与最佳实践、Canal排查与学习时间管理分享"
 description: "本周ARTS包含LeetCode两数组中位数算法解析、Docker入门与Dockerfile最佳实践、Canal找不到binlog问题分析与排查，以及关于学习时间安排的个人分享。"
 date: 2018-07-28
