@@ -22,7 +22,7 @@
     "gatsby-remark-smartypants": "^6.4.0",
     "gatsby-source-filesystem": "^5.4.0",
     "gatsby-transformer-remark": "^6.4.0",
-    "gatsby-transformer-yaml": "^5.4.0",
+    "gatsby-transformer-yaml": "^5.16.0",
     "katex": "^0.15.2",
     "postcss": "^8.2.1",
     "prismjs": "^1.29.0",
