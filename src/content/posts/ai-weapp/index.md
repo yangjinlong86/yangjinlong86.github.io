@@ -25,6 +25,6 @@ tags: ['coding','AI','metronome','tuner']
 
 节拍器、吉他调音器，提升吉他练习效率。
 
-<div style="text-align: center;width: 100px;height: 100px">
-    <img src="./weapp.png" alt="节拍器微信小程序">
+<div style="text-align: center;margin: 1em 0">
+    <img src="/weapp.png" alt="节拍器微信小程序" width="120" />
 </div>
