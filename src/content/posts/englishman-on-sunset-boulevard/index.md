@@ -10,7 +10,7 @@ tags: ['music']
 
 ---
 
-![tribes](./tribes-william-kennedy.jpeg)
+![tribes](./tribes.jpg)
 
 > 原调C调，我唱稍微有点儿高，降成B调刚好
 

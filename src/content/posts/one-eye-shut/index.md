@@ -9,7 +9,7 @@ summary: "[Tribes] One Eye Shut guitar chords"
 tags: ['music']
 
 ---
-![tribes](./tribes.jpg)
+![tribes](./tribes.png)
 
 ```
 Artist : Tribes

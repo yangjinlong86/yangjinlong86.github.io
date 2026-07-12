@@ -10,7 +10,7 @@ tags: ['music']
 
 ---
 
-![tribes](./tribes.jpeg)
+![tribes](./tribes.jpg)
 
 A E #Fm D
 

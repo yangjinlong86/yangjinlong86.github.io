@@ -9,7 +9,7 @@ summary: "[Tribes] We Were Children 吉他和弦谱"
 tags: ['music', 'chords']
 
 ---
-![tribes](./tribes-band.jpg)
+![tribes](./tribes.jpg)
 
 ```
 Intro : B F# E Eb x2
