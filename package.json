@@ -33,7 +33,7 @@
   "devDependencies": {
     "eslint": "^8.7.0",
     "eslint-plugin-react": "^7.11.1",
-    "gatsby-plugin-image": "^3.4.0",
+    "gatsby-plugin-image": "^3.16.0",
     "gatsby-plugin-sharp": "^5.4.0",
     "gatsby-remark-prismjs-title": "^1.0.0",
     "gatsby-transformer-sharp": "^5.4.0",
