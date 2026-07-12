@@ -182,8 +182,6 @@ class Layout extends React.Component {
             >
               Gatsbyjs
             </a>
-            <br/>
-            <a href="https://beian.miit.gov.cn">蜀ICP备2023036051号-1</a>
             
           </div>
         </footer>
