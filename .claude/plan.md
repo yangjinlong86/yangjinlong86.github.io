@@ -1,97 +1,75 @@
-# Gatsby → Astro 全面迁移方案
+# 切换为 Astro 官方 blog 模板主题（保留全部现有功能）
 
-## 一、目标
-将博客从 Gatsby 5 迁移到 Astro，保留：150 篇文章、黑客风格主题（代码雨/网格/脉冲）、sakura 动效、giscus 评论、RSS、sitemap、标签/归档分页、TOC 滚动高亮、SEO meta、百度统计。解决 Gatsby 框架已进维护模式的问题，获得零 JS 默认、Vite 构建、活跃维护。
+## 目标
+把当前「黑客暗色风格」(代码雨/绿色霓虹/Orbitron 字体/侧边栏) 换成 **Astro 官方 blog 模板** (`npm create astro -- --template blog`) 的清爽默认外观：浅色 Bear Blog 风、Atkinson Hyperlegible 字体、顶部导航栏、720px 居中正文、Shiki 默认代码高亮。
 
-## 二、新项目结构
-```
-/
-├── astro.config.mjs          # integrations: rss, sitemap, mdx, sass
-├── package.json              # astro + @astrojs/{rss,sitemap,mdx} + sass + remark/rehype 插件
-├── src/
-│   ├── content/posts/        # 150 篇 markdown（从 src/pages 迁移，保留子目录+图片）
-│   │   └── config.ts         # collection schema: title/date/tags/slug/description/summary
-│   ├── layouts/BaseLayout.astro   # <head> + 骨架（替代 html.js）
-│   ├── components/           # 全部 .astro + <script>
-│   │   ├── Layout.astro      # 侧边栏+主内容+页脚+菜单toggle（替代 layout.js）
-│   │   ├── HackerBackground.astro  # 代码雨/网格/脉冲
-│   │   ├── Menu.astro, Pagination.astro, PostInfo.astro
-│   │   ├── Toc.astro         # 目录 + 滚动高亮 script
-│   │   ├── GiscusComment.astro
-│   │   └── Seo.astro
-│   ├── pages/
-│   │   ├── index.astro
-│   │   ├── [...slug].astro   # 文章页 getStaticPaths
-│   │   ├── archive/[page].astro      # 归档分页（按年分组）
-│   │   ├── tag/[tag]/[page].astro    # 标签分页
-│   │   ├── tags.astro, links.astro, about.astro, 404.astro
-│   │   └── rss.xml.ts        # RSS
-│   ├── styles/              # 19 个 scss（从 src/css 迁移）
-│   └── consts.ts            # siteName/socialMedia/menu/giscusConfig（从 settings.js）
-├── public/                  # static/ 迁移（favicon/iconfont/webmanifest/robots/baidu_verify）
-└── .github/workflows/deploy.yml  # 改 astro build + dist
-```
+**保留所有现有功能**：归档分页、标签分页、giscus 评论、TOC、RSS、SEO meta、百度统计、KaTeX 数学公式、菜单、社交链接、150 篇文章与路由。
 
-## 三、关键映射
+参考来源：已下载官方模板到 `/tmp/astro-blog-ref`（global.css / Header / Footer / BaseHead / FormattedDate / BlogPost / blog/index 等）。
 
-| Gatsby | Astro |
-|---|---|
-| src/pages/*/index.md | src/content/posts/*/index.md (content collection) |
-| gatsby-node createPages 文章页 | [...slug].astro + getStaticPaths |
-| 归档分页 /archive | archive/[page].astro + paginate() |
-| 标签分页 /tag/x | tag/[tag]/[page].astro + paginate() |
-| GraphQL allMarkdownRemark | getCollection('posts') |
-| markdownRemark.html + tableOfContents | <Content /> + remark-toc / Astro headings |
-| layout.js (React class) | Layout.astro + 原生 <script> |
-| HackerBackground 代码雨 | HackerBackground.astro + <script> |
-| GiscusComment.js | GiscusComment.astro |
-| seo.js | Seo.astro |
-| html.js <head> | BaseLayout.astro <head> |
-| gatsby-plugin-feed | @astrojs/rss |
-| gatsby-plugin-sitemap | @astrojs/sitemap |
-| gatsby-remark-prismjs | remark-prism（保留 prism-dark.scss）|
-| gatsby-remark-katex | remark-math + rehype-katex |
-| gatsby-remark-autolink-headers | remark-autolink-headings |
-| gatsby-remark-images / ImageSharp | astro:assets（自动优化）|
+## 关键设计决策
+1. **布局由「侧边栏」改为「顶部 Header + 居中 main + Footer」**（对齐模板）。
+2. **字体**：Orbitron/Rajdhani → Atkinson Hyperlegible（经 Google Fonts `<link>` 引入；当前 Astro 5 不支持模板里 v7 的 experimental `fonts` API）。
+3. **代码高亮**：`prism` + `prism-dark.scss` → Shiki 默认（删 `syntaxHighlight: 'prism'`，得到官方默认深色代码块 on 浅色页面）。
+4. **导航**：顶部导航用文字链接（编程/音乐/生活/标签/归档/关于）+ active 下划线；社交图标沿用现有 iconfont。
+5. **TOC**：原侧边栏 TOC 改为正文右侧 sticky 面板（宽屏）/ 折叠 `<details>`（窄屏），保留滚动高亮脚本。
+6. **移除元素**：代码雨背景、樱花/脉冲动画、`dark-theme` class、`#pageName` 角标、侧边栏内搜索框（官方模板无搜索；属 UI 装饰非核心功能）。
+7. **日期**：沿用现有日期字符串展示（避免 Date 解析/时区问题），仅改样式。
+8. **包**：移除 `prismjs`；保留 `sass`（global.scss 仍用）。
 
-## 四、技术决策
-1. **不用 React**：全部 .astro + 原生 `<script>`。现有交互（菜单 toggle/搜索/代码雨/giscus/toc 滚动）都能原生实现，零 JS 默认更轻量，去掉 react/@deckdeckgo 依赖。
-2. **代码高亮**：第一版保留 prism（remark-prism + 现有 prism-dark.scss），保证视觉与原站一致；去掉 deckdeckgo/highlight-code。后续可选换 shiki。
-3. **内容**：Content Collections，frontmatter 加 zod schema 校验；图片 co-locate（content/posts/<slug>/xxx.jpg，markdown 相对路径自动处理）。
-4. **包管理器**：npm（CI 简单，配 package-lock.json）。
-5. **部署**：`astro build` -> `dist`，deploy-pages path: dist。
+## 改动清单
 
-## 五、迁移步骤
-1. 初始化 Astro：装 astro + @astrojs/{rss,sitemap,mdx,sass} + remark/rehype 插件，写 astro.config.mjs（site=yangjinlong86.github.io, integrations, markdown 配置）
-2. 建 content collection：src/content/posts/config.ts (schema) + 脚本迁移 150 篇（src/pages/<slug>/index.md+图片 -> src/content/posts/<slug>/）
-3. 迁移样式：src/css/*.scss -> src/styles/，BaseLayout 引 global.scss
-4. 迁移静态资源：static/* -> public/*
-5. 写 BaseLayout.astro：移植 html.js 的 <head>（百度统计/katex CSS/Google Fonts/icons/baidu验证/theme脚本）+ layout 骨架（设 dark-theme class）
-6. 写组件 .astro：Layout（侧边栏+主内容+页脚+菜单toggle）、HackerBackground（代码雨 script）、Menu、Pagination、PostInfo、Toc（+滚动高亮 script）、GiscusComment、Seo
-7. 写页面/路由：[...slug].astro（文章+上下篇+TOC+评论）、archive/[page].astro（按年分组+分页）、tag/[tag]/[page].astro、index.astro、tags.astro、links.astro、about.astro、404.astro
-8. 配置 markdown：remarkPlugins（autolink-headings, math）、rehypePlugins（katex）、prism 主题、gfm
-9. 配置 RSS（rss.xml.ts）、sitemap、gtag
-10. 写 consts.ts（从 settings.js 迁移配置）
-11. 更新 .github/workflows/deploy.yml：npm ci + astro build + upload dist
-12. build 测试 + astro dev 预览 + 对比关键页面（首页/文章/标签/归档）样式与功能
-13. 删除 Gatsby 文件：gatsby-*.js、src/templates/、src/html.js、src/hooks/、create-post.js、gatsby-browser.js、package.json 的 gatsby 依赖
-14. 提交推送，CI 部署
+### 1. `astro.config.mjs`
+- 删 `syntaxHighlight: 'prism'`（恢复 Shiki 默认）。保留 site / sitemap / remark-math / rehype-katex / gfm。
 
-## 六、风险与应对
-- **150 篇图片相对路径**：content collection co-locate assets，markdown ![](./x.jpg) 自动解析；先迁 1 篇验证再批量。
-- **prism 主题差异**：保留 prism-dark.scss + remark-prism，视觉一致；deckdeckgo 去掉。
-- **动效 JS（代码雨/樱花/网格）**：HackerBackground.astro <script> 移植原 JS，实测。
-- **TOC 滚动高亮**：blog-post.js 的 scroll 逻辑移植到 Toc.astro <script>。
-- **SEO meta**：Seo.astro 还原 seo.js（title/desc/keywords/OG/Twitter/canonical）。
-- **dark-theme class**：BaseLayout 设 document.documentElement.className='dark-theme'（global.scss 依赖）。
-- **分步验证**：先内容+基础布局能 build，再加路由，逐步调试样式。
+### 2. 样式 `src/styles/`
+- 重写 `global.scss`：以官方 `global.css`（Bear Blog 风）为基底 —— CSS 变量 `--accent #2337ff` / `--black` / `--gray*` / `--gray-gradient` / `--box-shadow`；body 浅色渐变、font-size 20px/line-height 1.7；`main` 720px 居中；h1-h6、a、code、pre、blockquote、table、img、hr 样式；`.sr-only`。追加少量共享样式（归档列表、标签云、分页、TOC、prose 微调）。
+- 删除黑客专用分片：`hacker-animate.scss`、`sakura.animate.scss`、`sakura.base.scss`、`prism-dark.scss`、`prism-light.scss`、`boxes.scss`、`balloon.scss`、`title.scss`、`iconfont-old.css`。
+- 保留 `iconfont.css`（社交/可能用到的图标）。其余（toc/blockquote/list/tag/link/menu/mobile/comment）样式并入 global 或移到组件 scoped `<style>`。
 
-## 七、工作量
-~4-5 天（含样式细调）。最大块：组件 .astro 重写 + 样式还原。
+### 3. `src/layouts/BaseLayout.astro`
+- `<html>` 去 `class="dark-theme"`，保持 `lang="zh-CN"`。
+- `<head>` 保留：charset / viewport / format-detection / baidu-site-verification / theme-color(改浅色) / canonical(由 pathname) / keywords / description / OG / Twitter / title / apple-touch-icon / favicon / manifest / katex CSS / 百度统计脚本。
+- Google Fonts：Orbitron+Rajdhani → Atkinson Hyperlegible。
+- 引入 `global.scss`。
+- body `<slot />`（Header/main/Footer 由 Layout 提供）。
 
-## 八、验证
-- `astro build` 成功，dist 生成
-- 本地 `astro dev` 预览：首页/文章/标签/归档/404
-- 对比原站视觉（黑客风格、代码雨、代码高亮、TOC、分页）
-- rss.xml / sitemap-index.xml 生成
-- 部署到 GitHub Pages，访问 yangjinlong86.github.io 验证
+### 4. `src/components/Layout.astro`（重写）
+结构：`<Header /> <main><slot /></main> <Footer />`。移除 HackerBackground、aside 侧边栏、menu-toggle、搜索框脚本。
+
+### 5. 新增 `src/components/Header.astro`
+顶部白色导航栏（box-shadow）：站点名链接 `/` + `menu` 文字导航（带 active 检测，仿模板 HeaderLink）+ 右侧 `socialMedia` iconfont 图标。窄屏隐藏社交。
+
+### 6. 新增 `src/components/Footer.astro`
+灰色渐变页脚：© 年份 yangjinlong86.github.io • Powered by Astro + 社交图标。
+
+### 7. 组件重样式
+- `PostInfo.astro`：日期 + `#tag` 链接，浅色配色。
+- `Pagination.astro`：朴素文字链接（上一页 / x / y / 下一页），去绿色按钮。
+- `Toc.astro`：保留滚动高亮脚本；样式改浅色；布局由 post 页放入右侧 sticky（见下）。
+- `GiscusComment.astro`：不动（giscus 脚本本身）。
+- 删 `HackerBackground.astro`、`Menu.astro`（导航已并入 Header）。
+
+### 8. 页面调整（保留逻辑，改 markup/class）
+- `index.astro`（首页）：保留按年倒序列表；`.css-archive` 改朴素列表（日期 + 标题链接），year-title 浅色。
+- `[...slug].astro`（文章）：`<h1>` + PostInfo + `<div class="prose">Content</div>` + TOC（右侧 sticky/折叠）+ 上一篇/下一篇 + GiscusComment。去掉 `.css-post-main` 暗盒。
+- `archive/index.astro`、`archive/[page].astro`：列表重样式。
+- `tag/[tag]/index.astro`、`tag/[tag]/[page].astro`：`.list-item/.list-title/.list-excerpt` 重样式。
+- `tags.astro`：标签云重样式。
+- `links.astro`：`.link-card` 重样式。
+- `404.astro`：微调。
+- `rss.xml.ts`：不动。
+
+### 9. 依赖
+- `package.json` 移除 `prismjs`（`yarn remove prismjs`）。
+
+## 验证
+1. `yarn build` 成功，188 页生成。
+2. `yarn dev` 本地预览：首页 / 文章 / 标签 / 归档 / 404 / rss.xml / sitemap。
+3. 视觉：浅色主题、无代码雨、Atkinson 字体、Shiki 代码块、顶部导航 active 态、TOC、giscus、分页、数学公式（katex）正常。
+4. 确认无残留 `dark-theme`/`//` 链接/绿色变量。
+
+## 不在范围
+- 不升级 Astro 5→7（风险大、非本次目标）。
+- 不改文章内容/frontmatter（除上次已修的 slug/年份排序）。
+- 不动 RSS/sitemap/giscus 配置逻辑。
