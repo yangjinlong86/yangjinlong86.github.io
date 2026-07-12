@@ -1,0 +1,63 @@
+---
+import '../styles/global.scss';
+import { SITE } from '../consts';
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string[];
+  image?: string;
+  pathname?: string;
+}
+
+const { title, description, keywords, image, pathname } = Astro.props;
+const seoTitle = `${title} | ${SITE.title}`;
+const url = `${SITE.siteUrl}${pathname || ''}`;
+const desc = description || SITE.description;
+const kw = (keywords || SITE.keywords).join(',');
+---
+<!doctype html>
+<html lang="zh-CN" class="dark-theme">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+  <meta name="format-detection" content="email=no,telephone=no,address=no" />
+  <meta name="baidu-site-verification" content="rVEuQMP8C6" />
+  <meta name="baidu-site-verification" content="codeva-KiUgz2gAMo" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="canonical" href={url} />
+  <meta name="keywords" content={kw} />
+  <meta name="description" content={desc} />
+  <meta property="og:title" content={seoTitle} />
+  <meta property="og:description" content={desc} />
+  <meta name="twitter:title" content={seoTitle} />
+  <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+  <meta name="twitter:url" content={url} />
+  <meta name="twitter:description" content={desc} />
+  <meta name="twitter:creator" content={SITE.author} />
+  {image && <meta name="twitter:image" content={image} />}
+  {image && <meta property="og:image" content={image} />}
+  <title>{seoTitle}</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script is:inline>
+    document.documentElement.className = 'dark-theme';
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?065ec4ac737fe35f7a9a97a6aabec697";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+</head>
+<body>
+  <slot />
+</body>
+</html>

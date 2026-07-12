@@ -1,0 +1,24 @@
+---
+import { giscusConfig } from '../consts';
+---
+{giscusConfig.enabled && (
+  <div class="css-comment-section">
+    <div class="css-comment-title">评论区</div>
+    <div class="giscus"></div>
+  </div>
+)}
+{giscusConfig.enabled && (
+  <script is:inline src="https://giscus.app/client.js"
+    data-repo={giscusConfig.repo}
+    data-repo-id={giscusConfig.repoId}
+    data-category={giscusConfig.category}
+    data-category-id={giscusConfig.categoryId}
+    data-mapping={giscusConfig.mapping}
+    data-reactions-enabled={giscusConfig.reactionsEnabled}
+    data-emit-metadata={giscusConfig.emitMetadata}
+    data-input-position={giscusConfig.inputPosition}
+    data-theme={giscusConfig.theme}
+    data-lang={giscusConfig.lang}
+    data-loading={giscusConfig.loading}
+    crossorigin="anonymous" async></script>
+)}

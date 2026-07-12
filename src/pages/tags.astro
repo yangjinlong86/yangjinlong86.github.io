@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Layout from '../components/Layout.astro';
+
+const posts = await getCollection('posts');
+const tagCount: Record<string, number> = {};
+for (const p of posts) for (const t of p.data.tags) tagCount[t] = (tagCount[t] || 0) + 1;
+const tags = Object.entries(tagCount).sort((a, b) => b[1] - a[1]);
+---
+<BaseLayout title="标签库" pathname="/tags">
+  <Layout pageName="标签">
+    <ul class="css-tags">
+      {tags.map(([tag, count]) => (
+        <li class="css-tag"><a href={`/tag/${tag}/`}>#{tag} <sup>{count}</sup></a></li>
+      ))}
+    </ul>
+  </Layout>
+</BaseLayout>

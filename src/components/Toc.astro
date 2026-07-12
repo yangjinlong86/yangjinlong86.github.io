@@ -1,0 +1,38 @@
+---
+interface Heading { depth: number; text: string; slug: string; }
+interface Props { headings: Heading[]; }
+const { headings } = Astro.props;
+const toc = headings.filter((h: Heading) => h.depth >= 2 && h.depth <= 4);
+---
+{toc.length > 0 && (
+  <nav class="css-toc" id="css-toc">
+    {toc.map((h: Heading) => (
+      <a href={`#${h.slug}`} class={`toc-h toc-h${h.depth}`} data-toc={h.slug}>{h.text}</a>
+    ))}
+  </nav>
+)}
+<script>
+  let pre = location.hash || '';
+  const setActive = (id: string) => {
+    document.querySelectorAll('.css-toc a.active').forEach((a) => a.classList.remove('active'));
+    if (id) {
+      const el = document.querySelector(`.css-toc a[data-toc="${id}"]`);
+      if (el) el.classList.add('active');
+    }
+  };
+  if (pre) setActive(decodeURIComponent(pre.slice(1)));
+  document.querySelectorAll('.css-toc a').forEach((a) => {
+    a.addEventListener('click', () => { pre = a.getAttribute('data-toc') || ''; });
+  });
+  document.addEventListener('scroll', () => {
+    const list = Array.from(document.querySelectorAll('h2,h3,h4,h5,h6'));
+    if (list.length === 0) return;
+    const passed = list.filter((h) => (h as HTMLElement).getBoundingClientRect().top <= 50);
+    if (passed.length === 0) return;
+    const last = passed[passed.length - 1] as HTMLElement;
+    if (pre !== last.id) {
+      pre = last.id;
+      setActive(last.id);
+    }
+  });
+</script>

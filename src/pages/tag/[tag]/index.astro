@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Layout from '../../../components/Layout.astro';
+import PostInfo from '../../../components/PostInfo.astro';
+import Pagination from '../../../components/Pagination.astro';
+
+const PER = 8;
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
+  return tags.map((tag) => {
+    const tagPosts = posts.filter((p) => p.data.tags.includes(tag)).sort((a, b) => b.data.date.localeCompare(a.data.date));
+    return { params: { tag }, props: { tagPosts, tag } };
+  });
+}
+const { tagPosts, tag } = Astro.props;
+const totalPage = Math.ceil(tagPosts.length / PER);
+const pagePosts = tagPosts.slice(0, PER);
+---
+<BaseLayout title={tag} pathname={`/tag/${tag}/`} description={tag}>
+  <Layout pageName={tag}>
+    {pagePosts.map((p) => (
+      <div class="list-item">
+        <div class="list-title"><a href={`/${p.slug}`}>{p.data.title}</a></div>
+        <PostInfo date={p.data.date.split(' ')[0]} tags={p.data.tags} />
+        <p class="list-excerpt">{p.data.description}</p>
+      </div>
+    ))}
+    <Pagination currentPage={1} totalPage={totalPage} prefix={`/tag/${tag}/`} />
+  </Layout>
+</BaseLayout>

@@ -1,0 +1,69 @@
+---
+import HackerBackground from './HackerBackground.astro';
+import Menu from './Menu.astro';
+import { siteName, socialMedia } from '../consts';
+
+interface Props { pageName?: string; pageDescript?: string; }
+const { pageName, pageDescript } = Astro.props;
+const hasAside = Astro.slots.has('aside');
+const year = new Date().getFullYear();
+---
+<div class="css-layout" style="min-height:100vh;display:flex;flex-direction:column;">
+  <HackerBackground />
+  <div class="css-main" style="flex-grow:1;width:100%;display:flex;justify-content:center;margin:auto;max-width:1200px;">
+    <aside class="css-aside close" id="css-aside">
+      <header class="css-header">
+        <div>
+          <a href="/" class="funnyeagle" style="text-decoration:none;font-weight:200;">
+            <span class="logo-mobile">{siteName}</span>
+          </a>
+          {pageName && <div class="page-name">{'#' + pageName}</div>}
+        </div>
+        <div class="menu-button" id="menu-toggle">
+          <i class="iconfont icon-menu" id="menu-icon"></i>
+        </div>
+      </header>
+      {hasAside ? (
+        <div class="css-toc" id="aside-toc"><slot name="aside" /></div>
+      ) : (
+        <>
+          <Menu direction="column" />
+          <div style="text-align:center;margin-bottom:20px;">
+            <input placeholder="关键字，然后 Enter" id="search-input" />
+          </div>
+        </>
+      )}
+    </aside>
+    <article class="css-post"><slot /></article>
+  </div>
+  <footer>
+    <div class="social-media" style="margin-bottom:1rem;">
+      {socialMedia.map((item) => (
+        <a href={item.href} target="_blank"><i class={`iconfont icon-${item.icon}`}></i></a>
+      ))}
+    </div>
+    <div style="margin-bottom:1rem;">
+      © <span class="year">{year}</span> yangjinlong86.github.io {' '}
+      • Powered by <a class="funnyeagle" target="_blank" href="https://www.astro.build/">Astro</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  const aside = document.getElementById('css-aside');
+  const toggle = document.getElementById('menu-toggle');
+  const icon = document.getElementById('menu-icon');
+  let open = false;
+  toggle?.addEventListener('click', () => {
+    open = !open;
+    aside?.classList.toggle('open', open);
+    aside?.classList.toggle('close', !open);
+    if (icon) icon.className = 'iconfont icon-' + (open ? 'close' : 'menu');
+  });
+  const search = document.getElementById('search-input') as HTMLInputElement | null;
+  search?.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+      window.open('https://cn.bing.com/search?q=site%3Ayangjinlong86.github.io%20' + search.value);
+    }
+  });
+</script>

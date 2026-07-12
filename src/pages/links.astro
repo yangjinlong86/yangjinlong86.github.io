@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Layout from '../components/Layout.astro';
+import GiscusComment from '../components/GiscusComment.astro';
+import { friends, recommend } from '../consts';
+---
+<BaseLayout title="链接库" pathname="/links/">
+  <Layout pageName="链接库">
+    <h2>推荐</h2>
+    <div class="link-card-wrapper">
+      {recommend.map((link) => (
+        <a class="link-card" target="_blank" href={link.href}>
+          {link.img ? <img src={link.img} alt={link.title} /> : <div class="noimage">{link.title[0]}</div>}
+          <div class="info">
+            <div class="title">{link.title}</div>
+            <div class="description">{link.description}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+    <h2>友链</h2>
+    <div class="link-card-wrapper">
+      {friends.map((link) => (
+        <a class="link-card" target="_blank" href={link.href}>
+          {link.img ? <img src={link.img} alt={link.title} /> : <div class="noimage">{link.title[0]}</div>}
+          <div class="info">
+            <div class="title">{link.title}</div>
+            <div class="description">{link.description}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+    <GiscusComment slug="/links/" />
+  </Layout>
+</BaseLayout>

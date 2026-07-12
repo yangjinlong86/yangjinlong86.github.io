@@ -1,0 +1,12 @@
+---
+interface Props { date: string; tags?: string[]; }
+const { date, tags } = Astro.props;
+---
+<div class="css-info">
+  <span style="padding-right:12px">{date}</span>
+  {tags && tags.map((tag) => (
+    <span style="padding-right:8px">
+      <a href={`/tag/${tag}`}>#{tag}</a>
+    </span>
+  ))}
+</div>

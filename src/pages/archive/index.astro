@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Layout from '../../components/Layout.astro';
+import Pagination from '../../components/Pagination.astro';
+
+const PER = 50;
+const posts = (await getCollection('posts')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const totalPage = Math.ceil(posts.length / PER);
+const pagePosts = posts.slice(0, PER);
+const groups: Record<string, CollectionEntry<'posts'>[]> = {};
+for (const p of pagePosts) {
+  const y = p.data.date.slice(0, 4);
+  (groups[y] = groups[y] || []).push(p);
+}
+---
+<BaseLayout title="归档" description="一步一步，走出自己的轨迹" pathname="/archive/">
+  <Layout>
+    <div class="css-archive">
+      {Object.entries(groups).map(([year, ps]) => (
+        <div>
+          <div class="year-title" style="margin-bottom:1.2rem;">{year}</div>
+          {ps.map((p) => (
+            <div class="item">
+              <span class="date">{p.data.date.slice(5, 10)}</span>
+              <a class="title" href={`/${p.slug}`}>{p.data.title}</a>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <Pagination currentPage={1} totalPage={totalPage} prefix="/archive/" />
+  </Layout>
+</BaseLayout>

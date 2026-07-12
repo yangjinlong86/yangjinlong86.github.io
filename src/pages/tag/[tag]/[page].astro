@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Layout from '../../../components/Layout.astro';
+import PostInfo from '../../../components/PostInfo.astro';
+import Pagination from '../../../components/Pagination.astro';
+
+export async function getStaticPaths() {
+  const PER = 8;
+  const posts = await getCollection('posts');
+  const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
+  const paths = [];
+  for (const tag of tags) {
+    const tagPosts = posts.filter((p) => p.data.tags.includes(tag)).sort((a, b) => b.data.date.localeCompare(a.data.date));
+    const totalPage = Math.ceil(tagPosts.length / PER);
+    for (let i = 2; i <= totalPage; i++) {
+      const pagePosts = tagPosts.slice((i - 1) * PER, i * PER);
+      paths.push({ params: { tag, page: String(i) }, props: { tag, pagePosts, currentPage: i, totalPage } });
+    }
+  }
+  return paths;
+}
+const { tag, pagePosts, currentPage, totalPage } = Astro.props;
+---
+<BaseLayout title={tag} pathname={`/tag/${tag}/${currentPage}/`} description={tag}>
+  <Layout pageName={tag}>
+    {pagePosts.map((p) => (
+      <div class="list-item">
+        <div class="list-title"><a href={`/${p.slug}`}>{p.data.title}</a></div>
+        <PostInfo date={p.data.date.split(' ')[0]} tags={p.data.tags} />
+        <p class="list-excerpt">{p.data.description}</p>
+      </div>
+    ))}
+    <Pagination currentPage={currentPage} totalPage={totalPage} prefix={`/tag/${tag}/`} />
+  </Layout>
+</BaseLayout>

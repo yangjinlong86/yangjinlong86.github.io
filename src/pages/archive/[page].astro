@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Layout from '../../components/Layout.astro';
+import Pagination from '../../components/Pagination.astro';
+
+export async function getStaticPaths() {
+  const PER = 50;
+  const posts = (await getCollection('posts')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+  const totalPage = Math.ceil(posts.length / PER);
+  const paths = [];
+  for (let i = 2; i <= totalPage; i++) {
+    const pagePosts = posts.slice((i - 1) * PER, i * PER);
+    paths.push({ params: { page: String(i) }, props: { pagePosts, currentPage: i, totalPage } });
+  }
+  return paths;
+}
+const { pagePosts, currentPage, totalPage } = Astro.props;
+const groups: Record<string, CollectionEntry<'posts'>[]> = {};
+for (const p of pagePosts) {
+  const y = p.data.date.slice(0, 4);
+  (groups[y] = groups[y] || []).push(p);
+}
+---
+<BaseLayout title="归档" description="一步一步，走出自己的轨迹" pathname={`/archive/${currentPage}/`}>
+  <Layout>
+    <div class="css-archive">
+      {Object.entries(groups).map(([year, ps]) => (
+        <div>
+          <div class="year-title" style="margin-bottom:1.2rem;">{year}</div>
+          {ps.map((p) => (
+            <div class="item">
+              <span class="date">{p.data.date.slice(5, 10)}</span>
+              <a class="title" href={`/${p.slug}`}>{p.data.title}</a>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <Pagination currentPage={currentPage} totalPage={totalPage} prefix="/archive/" />
+  </Layout>
+</BaseLayout>

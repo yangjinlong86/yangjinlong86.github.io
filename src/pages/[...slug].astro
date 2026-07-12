@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Layout from '../components/Layout.astro';
+import PostInfo from '../components/PostInfo.astro';
+import Toc from '../components/Toc.astro';
+import GiscusComment from '../components/GiscusComment.astro';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('posts')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+  return posts.map((post, index) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+      previous: index < posts.length - 1 ? posts[index + 1] : null,
+      next: index > 0 ? posts[index - 1] : null,
+    },
+  }));
+}
+
+const { post, previous, next } = Astro.props;
+const { Content, headings } = await post.render();
+const date = post.data.date.split(' ')[0];
+---
+<BaseLayout title={post.data.title} description={post.data.description} keywords={post.data.tags} pathname={`/${post.slug}`}>
+  <Layout>
+    <Toc slot="aside" headings={headings} />
+    <h1>{post.data.title}</h1>
+    <PostInfo date={date} tags={post.data.tags} />
+    <div class="css-post-main">
+      <Content />
+    </div>
+    <hr />
+    <ul class="button-wrapper">
+      <li>{previous && <a href={`/${previous.slug}`} rel="prev"><button>上一篇: {previous.data.title}</button></a>}</li>
+      <li>{next && <a href={`/${next.slug}`} rel="next"><button>下一篇: {next.data.title}</button></a>}</li>
+    </ul>
+    <GiscusComment slug={post.slug} />
+  </Layout>
+</BaseLayout>

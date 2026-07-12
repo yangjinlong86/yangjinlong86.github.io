@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Layout from '../components/Layout.astro';
+
+const posts = (await getCollection('posts')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const groups: Record<string, CollectionEntry<'posts'>[]> = {};
+for (const p of posts) {
+  const y = p.data.date.slice(0, 4);
+  (groups[y] = groups[y] || []).push(p);
+}
+---
+<BaseLayout title="主页" description="一步一步，走出自己的轨迹" pathname="/">
+  <Layout>
+    <div class="css-archive">
+      {Object.entries(groups).map(([year, ps], idx) => (
+        <div>
+          <div class="year-title" style={`font-size:1.8em;margin-top:${idx === 0 ? '0rem' : '2rem'};margin-bottom:1.2rem;`}>{year}</div>
+          {ps.map((p) => (
+            <div class="item">
+              <span class="date">{p.data.date.slice(5, 10)}</span>
+              <a class="title" href={`/${p.slug}`}>{p.data.title}</a>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </Layout>
+</BaseLayout>
