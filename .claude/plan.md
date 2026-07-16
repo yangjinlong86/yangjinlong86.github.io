@@ -1,75 +1,109 @@
-# 切换为 Astro 官方 blog 模板主题（保留全部现有功能）
+# 在线 Markdown 编辑器页面（PAT + Vditor，仅新建文章）
 
 ## 目标
-把当前「黑客暗色风格」(代码雨/绿色霓虹/Orbitron 字体/侧边栏) 换成 **Astro 官方 blog 模板** (`npm create astro -- --template blog`) 的清爽默认外观：浅色 Bear Blog 风、Atkinson Hyperlegible 字体、顶部导航栏、720px 居中正文、Shiki 默认代码高亮。
+在 Astro 站点新增一个 `/editor` 静态页面：集成好用的 Markdown 编辑器（Vditor），写完填好元信息点「提交并发布」，前端直接调 GitHub Contents API 把文章作为一次 commit 推到 `main`，触发现有 `deploy.yml` 自动构建发布到 GitHub Pages。**无本地服务、无后端、无第三方依赖，只用 GitHub 服务（Pages + Actions + REST API）。**
 
-**保留所有现有功能**：归档分页、标签分页、giscus 评论、TOC、RSS、SEO meta、百度统计、KaTeX 数学公式、菜单、社交链接、150 篇文章与路由。
+## 选型（已与用户确认）
+- 编辑器：**Vditor**（CDN 加载，工具栏 + 即时渲染/所见即所得/源码三模式，内置代码高亮与 KaTeX）
+- 范围：**仅新建文章**（不做编辑/删除已有）
+- 认证：**fine-grained Personal Access Token**（浏览器端持有）。理由：纯 GitHub、纯前端；OAuth/Decap CMS 在 GitHub Pages 上都需后端代理，违背「只依赖 GitHub 服务」约束。
 
-参考来源：已下载官方模板到 `/tmp/astro-blog-ref`（global.css / Header / Footer / BaseHead / FormattedDate / BlogPost / blog/index 等）。
+## 新增文件
+1. `src/pages/editor.astro` -- 编辑器页面（唯一新增源文件）
 
-## 关键设计决策
-1. **布局由「侧边栏」改为「顶部 Header + 居中 main + Footer」**（对齐模板）。
-2. **字体**：Orbitron/Rajdhani → Atkinson Hyperlegible（经 Google Fonts `<link>` 引入；当前 Astro 5 不支持模板里 v7 的 experimental `fonts` API）。
-3. **代码高亮**：`prism` + `prism-dark.scss` → Shiki 默认（删 `syntaxHighlight: 'prism'`，得到官方默认深色代码块 on 浅色页面）。
-4. **导航**：顶部导航用文字链接（编程/音乐/生活/标签/归档/关于）+ active 下划线；社交图标沿用现有 iconfont。
-5. **TOC**：原侧边栏 TOC 改为正文右侧 sticky 面板（宽屏）/ 折叠 `<details>`（窄屏），保留滚动高亮脚本。
-6. **移除元素**：代码雨背景、樱花/脉冲动画、`dark-theme` class、`#pageName` 角标、侧边栏内搜索框（官方模板无搜索；属 UI 装饰非核心功能）。
-7. **日期**：沿用现有日期字符串展示（避免 Date 解析/时区问题），仅改样式。
-8. **包**：移除 `prismjs`；保留 `sass`（global.scss 仍用）。
+## 修改文件
+无。不碰 `deploy.yml`、不碰 `src/content/config.ts`、不加 npm 依赖（Vditor 走 CDN）。
 
-## 改动清单
+## 端到端流程
+1. 用户在 `/editor` 填写 frontmatter（title/slug/date/tags/description/summary）+ 在 Vditor 写正文。
+2. 点「提交并发布」-> 前端拼好 `---frontmatter---\n正文`，UTF-8 安全 base64。
+3. `PUT /repos/{owner}/{repo}/contents/src/content/posts/{slug}/index.md`（带 `Authorization: Bearer <token>`）-> 产生一次 commit 到 `main`。
+4. 该 push 自动触发 `.github/workflows/deploy.yml` -> build -> 部署到 GitHub Pages（约 1–2 分钟）。
 
-### 1. `astro.config.mjs`
-- 删 `syntaxHighlight: 'prism'`（恢复 Shiki 默认）。保留 site / sitemap / remark-math / rehype-katex / gfm。
+## 页面结构（editor.astro）
+沿用站点布局约定（与 `src/pages/tags.astro` 一致）：
+```
+<BaseLayout title="写作" pathname="/editor">
+  <Layout pageName="写作">
+    <!-- 设置区：PAT / owner / repo / branch / 记住token / 测试连接 -->
+    <!-- 表单区：title / slug / date / tags / description / summary -->
+    <!-- 编辑器：<div id="vditor"></div> -->
+    <!-- 提交按钮 + 状态/结果区 -->
+  </Layout>
+</BaseLayout>
+```
+所有脚本用 `is:inline`（站点已用此模式加载百度统计），引用 CDN 全局 `Vditor`，避免 Astro 打包/类型处理。
 
-### 2. 样式 `src/styles/`
-- 重写 `global.scss`：以官方 `global.css`（Bear Blog 风）为基底 —— CSS 变量 `--accent #2337ff` / `--black` / `--gray*` / `--gray-gradient` / `--box-shadow`；body 浅色渐变、font-size 20px/line-height 1.7；`main` 720px 居中；h1-h6、a、code、pre、blockquote、table、img、hr 样式；`.sr-only`。追加少量共享样式（归档列表、标签云、分页、TOC、prose 微调）。
-- 删除黑客专用分片：`hacker-animate.scss`、`sakura.animate.scss`、`sakura.base.scss`、`prism-dark.scss`、`prism-light.scss`、`boxes.scss`、`balloon.scss`、`title.scss`、`iconfont-old.css`。
-- 保留 `iconfont.css`（社交/可能用到的图标）。其余（toc/blockquote/list/tag/link/menu/mobile/comment）样式并入 global 或移到组件 scoped `<style>`。
+## CDN 依赖
+- JS: `https://cdn.jsdelivr.net/npm/vditor@3/dist/index.min.js`
+- CSS: `https://cdn.jsdelivr.net/npm/vditor@3/dist/index.css`
+（站点已从 jsdelivr 加载 KaTeX CSS，一致；BaseLayout 已引入 `katex.min.css`，Vditor 行内公式可复用。）
 
-### 3. `src/layouts/BaseLayout.astro`
-- `<html>` 去 `class="dark-theme"`，保持 `lang="zh-CN"`。
-- `<head>` 保留：charset / viewport / format-detection / baidu-site-verification / theme-color(改浅色) / canonical(由 pathname) / keywords / description / OG / Twitter / title / apple-touch-icon / favicon / manifest / katex CSS / 百度统计脚本。
-- Google Fonts：Orbitron+Rajdhani → Atkinson Hyperlegible。
-- 引入 `global.scss`。
-- body `<slot />`（Header/main/Footer 由 Layout 提供）。
+## Vditor 初始化
+- `mode: 'ir'`（即时渲染）
+- `toolbar`：标题/粗斜体/引用/代码/链接/列表/表格/emoji/预览/全屏
+- `cache: { enable: false }`
+- `preview.math` 复用 KaTeX
+- 高度自适应
 
-### 4. `src/components/Layout.astro`（重写）
-结构：`<Header /> <main><slot /></main> <Footer />`。移除 HackerBackground、aside 侧边栏、menu-toggle、搜索框脚本。
+## 凭证与设置区
+- `token`（password，不预填；勾「记住 token」存 localStorage，否则 sessionStorage）
+- `owner` = `yangjinlong86`（预填，可改）
+- `repo` = `yangjinlong86.github.io`（预填，可改）
+- `branch` = `main`（预填）
+- 这些设置（除 token 外）存 localStorage 供下次复用
+- 「测试连接」：`GET /repos/{owner}/{repo}` 验证 token 与仓库访问，显示结果
 
-### 5. 新增 `src/components/Header.astro`
-顶部白色导航栏（box-shadow）：站点名链接 `/` + `menu` 文字导航（带 active 检测，仿模板 HeaderLink）+ 右侧 `socialMedia` iconfont 图标。窄屏隐藏社交。
+## frontmatter 生成（对齐 `src/content/config.ts` schema）
+schema：title 必填；date 接受 string|Date；tags 数组（默认 []）；description/summary/slug 可选。
+```
+---
+title: "<title>"
+date: "YYYY-MM-DD HH:MM:SS"     // 默认当前时间，可手改
+tags: ['tag1','tag2']           // 逗号分隔 -> 数组，空则 []
+description: "<description>"
+summary: "<summary>"
+slug: "<slug>"                  // 空则生成 post-YYYYMMDD-HHMMSS
+---
+<正文>
+```
+路径：`src/content/posts/<slug>/index.md`。
 
-### 6. 新增 `src/components/Footer.astro`
-灰色渐变页脚：© 年份 yangjinlong86.github.io • Powered by Astro + 社交图标。
+## 提交逻辑（GitHub Contents API）
+- 校验：title 非空、token 非空。
+- base64：`btoa(unescape(encodeURIComponent(content)))`（UTF-8 安全）。
+- 请求：
+  ```
+  PUT https://api.github.com/repos/{owner}/{repo}/contents/src/content/posts/{slug}/index.md
+  Headers:
+    Authorization: Bearer <token>
+    Accept: application/vnd.github+json
+    X-GitHub-Api-Version: 2022-11-28
+    Content-Type: application/json
+  Body: { "message": "post: <title>", "content": "<base64>", "branch": "main" }
+  ```
+- 成功：显示 commit 链接 + Actions 页链接 + 提示「约 1–2 分钟后发布完成」。
+- 错误处理：
+  - 422（文件已存在）-> 「该 slug 已存在，请换个 slug」
+  - 401/403 -> 「token 无效或权限不足（需 contents: write）」
+  - 404 -> 「owner/repo 不对」
+  - 其他 -> 显示状态码与响应片段
 
-### 7. 组件重样式
-- `PostInfo.astro`：日期 + `#tag` 链接，浅色配色。
-- `Pagination.astro`：朴素文字链接（上一页 / x / y / 下一页），去绿色按钮。
-- `Toc.astro`：保留滚动高亮脚本；样式改浅色；布局由 post 页放入右侧 sticky（见下）。
-- `GiscusComment.astro`：不动（giscus 脚本本身）。
-- 删 `HackerBackground.astro`、`Menu.astro`（导航已并入 Header）。
+## 安全说明（页面内放简短提示）
+- PAT 用 fine-grained，**仅授权本仓库 `Contents: Read and write`**，设过期时间。
+- token 仅存浏览器；页面虽公开，但无 token 无法提交。
+- 不勾「记住 token」则用 sessionStorage，关页即失效。
+- 切勿把 token 写进仓库文件；本实现不提交 token。
+- 直接提交到 `main` 会触发全量构建发布（个人博客可接受）。
 
-### 8. 页面调整（保留逻辑，改 markup/class）
-- `index.astro`（首页）：保留按年倒序列表；`.css-archive` 改朴素列表（日期 + 标题链接），year-title 浅色。
-- `[...slug].astro`（文章）：`<h1>` + PostInfo + `<div class="prose">Content</div>` + TOC（右侧 sticky/折叠）+ 上一篇/下一篇 + GiscusComment。去掉 `.css-post-main` 暗盒。
-- `archive/index.astro`、`archive/[page].astro`：列表重样式。
-- `tag/[tag]/index.astro`、`tag/[tag]/[page].astro`：`.list-item/.list-title/.list-excerpt` 重样式。
-- `tags.astro`：标签云重样式。
-- `links.astro`：`.link-card` 重样式。
-- `404.astro`：微调。
-- `rss.xml.ts`：不动。
-
-### 9. 依赖
-- `package.json` 移除 `prismjs`（`yarn remove prismjs`）。
+## 不在本次范围
+- 图片上传（Vditor upload hook 后续可接 Contents API）
+- 编辑/删除已有文章
+- OAuth 登录（需后端代理，违背约束）
 
 ## 验证
-1. `yarn build` 成功，188 页生成。
-2. `yarn dev` 本地预览：首页 / 文章 / 标签 / 归档 / 404 / rss.xml / sitemap。
-3. 视觉：浅色主题、无代码雨、Atkinson 字体、Shiki 代码块、顶部导航 active 态、TOC、giscus、分页、数学公式（katex）正常。
-4. 确认无残留 `dark-theme`/`//` 链接/绿色变量。
-
-## 不在范围
-- 不升级 Astro 5→7（风险大、非本次目标）。
-- 不改文章内容/frontmatter（除上次已修的 slug/年份排序）。
-- 不动 RSS/sitemap/giscus 配置逻辑。
+- `npm run build` 确认 `/editor` 构建无错。
+- 浏览器打开 `/editor`，用测试 PAT 提交一篇测试文章，确认：
+  1. 仓库出现新 commit + 新文件 `src/content/posts/<slug>/index.md`
+  2. GitHub Actions 被触发并成功部署
+  3. 文章上线后 frontmatter 渲染、KaTeX/代码高亮正常

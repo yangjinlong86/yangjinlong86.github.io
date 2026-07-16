@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Layout from '../components/Layout.astro';
+---
+<BaseLayout title="写作" pathname="/editor" description="在线 Markdown 编辑器，提交后自动发布到 GitHub Pages。">
+  <Layout pageName="写作">
+    <section class="editor-page">
+      <h2>在线写作</h2>
+      <p class="hint">
+        在 Vditor 中写正文，填好元信息后点「提交并发布」，前端直接调用 GitHub Contents API
+        把文章作为一次 commit 推到 <code>main</code>，自动触发现有构建发布流程。
+      </p>
+
+      <details class="settings">
+        <summary>GitHub 凭证与仓库设置</summary>
+        <div class="settings-grid">
+          <label>
+            PAT（fine-grained，权限给 Contents: Read and write）
+            <input id="gh-token" type="password" placeholder="github_pat_..." autocomplete="off" />
+          </label>
+          <label class="check">
+            <input id="gh-remember" type="checkbox" /> 记住 token（不勾则仅本标签页有效，关闭即失效）
+          </label>
+          <div class="row2">
+            <label>owner<input id="gh-owner" type="text" /></label>
+            <label>repo<input id="gh-repo" type="text" /></label>
+          </div>
+          <label>branch<input id="gh-branch" type="text" /></label>
+          <div class="row2">
+            <button id="btn-test" type="button">测试连接</button>
+            <span id="test-result" class="result"></span>
+          </div>
+        </div>
+        <p class="sub">
+          没有 token？<a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">生成 fine-grained PAT</a>，
+          Resource owner 选自己、仅选本仓库、Repository permissions 里 Contents 设为 Read and write，并设过期时间。
+          token 仅存在你的浏览器，不会写入仓库。
+        </p>
+      </details>
+
+      <div class="meta">
+        <label>标题 *<input id="f-title" type="text" /></label>
+        <div class="row2">
+          <label>slug（留空自动生成）<input id="f-slug" type="text" placeholder="my-post" /></label>
+          <label>日期<input id="f-date" type="text" placeholder="YYYY-MM-DD HH:MM:SS" /></label>
+        </div>
+        <label>标签（逗号分隔）<input id="f-tags" type="text" placeholder="coding, arts" /></label>
+        <label>description<input id="f-desc" type="text" /></label>
+        <label>summary<input id="f-summary" type="text" /></label>
+      </div>
+
+      <div id="vditor"></div>
+
+      <div class="actions">
+        <button id="btn-submit" type="button">提交并发布</button>
+        <span id="submit-status" class="result"></span>
+      </div>
+    </section>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3/dist/index.css" />
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vditor@3/dist/index.min.js"></script>
+    <script is:inline>
+      (function () {
+        var $ = function (id) { return document.getElementById(id); };
+        var DEFAULTS = { owner: 'yangjinlong86', repo: 'yangjinlong86.github.io', branch: 'main' };
+
+        function pad(n) { return String(n).padStart(2, '0'); }
+        function nowStr() {
+          var d = new Date();
+          return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
+            pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+        }
+        function nowSlug() {
+          var d = new Date();
+          return 'post-' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + '-' +
+            pad(d.getHours()) + pad(d.getMinutes()) + pad(d.getSeconds());
+        }
+        function b64(str) { return btoa(unescape(encodeURIComponent(str))); }
+        function esc(s) { return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, ' '); }
+        function sanitizeSlug(s) {
+          return String(s || '').trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9_-]/g, '');
+        }
+
+        function loadSettings() {
+          try {
+            var s = JSON.parse(localStorage.getItem('gh-settings') || '{}');
+            $('gh-owner').value = s.owner || DEFAULTS.owner;
+            $('gh-repo').value = s.repo || DEFAULTS.repo;
+            $('gh-branch').value = s.branch || DEFAULTS.branch;
+            $('gh-remember').checked = !!s.remember;
+          } catch (e) {}
+          var tok = $('gh-remember').checked
+            ? (localStorage.getItem('gh-token') || '')
+            : (sessionStorage.getItem('gh-token') || '');
+          $('gh-token').value = tok;
+        }
+        function saveSettings() {
+          var s = {
+            owner: $('gh-owner').value, repo: $('gh-repo').value,
+            branch: $('gh-branch').value, remember: $('gh-remember').checked,
+          };
+          localStorage.setItem('gh-settings', JSON.stringify(s));
+          localStorage.removeItem('gh-token');
+          sessionStorage.removeItem('gh-token');
+          var tok = $('gh-token').value;
+          if (tok) {
+            if ($('gh-remember').checked) localStorage.setItem('gh-token', tok);
+            else sessionStorage.setItem('gh-token', tok);
+          }
+        }
+        function getToken() { return $('gh-token').value.trim(); }
+        function headers(token, json) {
+          var h = { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+          if (json) h['Content-Type'] = 'application/json';
+          return h;
+        }
+
+        var vd = null;
+        function initEditor() {
+          if (typeof Vditor === 'undefined') { setTimeout(initEditor, 60); return; }
+          vd = new Vditor('vditor', {
+            mode: 'ir',
+            height: 480,
+            cache: { enable: false },
+            toolbar: ['headings', 'bold', 'italic', 'quote', 'code', 'inline-code', 'link', 'list', 'outdent', 'indent', 'check', 'table', 'emoji', 'line', 'preview', 'fullscreen'],
+            placeholder: '在这里写下你的文章…',
+            preview: { hljs: { lineNumber: true, style: 'github' } },
+          });
+        }
+
+        function setTest(text, cls) { var el = $('test-result'); el.textContent = text; el.className = 'result ' + (cls || ''); }
+        function setSub(html, cls) { var el = $('submit-status'); el.innerHTML = html; el.className = 'result ' + (cls || ''); }
+
+        $('btn-test').addEventListener('click', async function () {
+          saveSettings();
+          var token = getToken();
+          if (!token) { setTest('✗ 请先填写 PAT', 'err'); return; }
+          setTest('测试中…', 'info');
+          try {
+            var res = await fetch('https://api.github.com/repos/' + $('gh-owner').value.trim() + '/' + $('gh-repo').value.trim(), { headers: headers(token) });
+            if (res.ok) { var j = await res.json(); setTest('✓ 连接成功：' + j.full_name + '（' + (j.private ? '私有' : '公开') + '）', 'ok'); }
+            else if (res.status === 401 || res.status === 403) setTest('✗ token 无效或权限不足', 'err');
+            else if (res.status === 404) setTest('✗ 仓库不存在或无访问权限', 'err');
+            else setTest('✗ 失败 ' + res.status, 'err');
+          } catch (e) { setTest('✗ 网络错误：' + e.message, 'err'); }
+        });
+
+        $('btn-submit').addEventListener('click', async function () {
+          saveSettings();
+          var title = $('f-title').value.trim();
+          var token = getToken();
+          if (!title) { setSub('✗ 请填写标题', 'err'); return; }
+          if (!token) { setSub('✗ 请填写 PAT', 'err'); return; }
+          var slug = sanitizeSlug($('f-slug').value) || nowSlug();
+          var date = $('f-date').value.trim() || nowStr();
+          var tags = $('f-tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+          var desc = $('f-desc').value.trim();
+          var summary = $('f-summary').value.trim();
+          var body = vd ? vd.getValue() : '';
+
+          var fm = '---\n';
+          fm += 'title: "' + esc(title) + '"\n';
+          fm += 'date: "' + esc(date) + '"\n';
+          if (tags.length) fm += 'tags: [' + tags.map(function (t) { return "'" + t.replace(/'/g, "''") + "'"; }).join(',') + ']\n';
+          if (desc) fm += 'description: "' + esc(desc) + '"\n';
+          if (summary) fm += 'summary: "' + esc(summary) + '"\n';
+          fm += 'slug: "' + esc(slug) + '"\n';
+          fm += '---\n\n';
+          var content = fm + body + (body.endsWith('\n') ? '' : '\n');
+
+          var owner = $('gh-owner').value.trim();
+          var repo = $('gh-repo').value.trim();
+          var branch = $('gh-branch').value.trim() || 'main';
+          var path = 'src/content/posts/' + encodeURIComponent(slug) + '/index.md';
+          setSub('提交中…', 'info');
+          try {
+            var res = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + path, {
+              method: 'PUT', headers: headers(token, true),
+              body: JSON.stringify({ message: 'post: ' + title, content: b64(content), branch: branch }),
+            });
+            var j = await res.json().catch(function () { return {}; });
+            if (res.ok) {
+              var commitUrl = (j.commit && j.commit.html_url) || ('https://github.com/' + owner + '/' + repo + '/commits');
+              var actionsUrl = 'https://github.com/' + owner + '/' + repo + '/actions';
+              setSub('✓ 已提交！<a href="' + commitUrl + '" target="_blank" rel="noopener">查看 commit</a> ｜ <a href="' + actionsUrl + '" target="_blank" rel="noopener">Actions 进度</a>。约 1–2 分钟后发布完成。', 'ok');
+            } else if (res.status === 422) {
+              setSub('✗ 该 slug 已存在，请换一个 slug', 'err');
+            } else if (res.status === 401 || res.status === 403) {
+              setSub('✗ token 无效或权限不足（需 Contents: Read and write）', 'err');
+            } else if (res.status === 404) {
+              setSub('✗ owner/repo 不对或无权限', 'err');
+            } else {
+              setSub('✗ 失败：' + (j.message || ('HTTP ' + res.status)), 'err');
+            }
+          } catch (e) { setSub('✗ 网络错误：' + e.message, 'err'); }
+        });
+
+        ['gh-owner', 'gh-repo', 'gh-branch', 'gh-remember', 'gh-token'].forEach(function (id) {
+          $(id).addEventListener('change', saveSettings);
+        });
+
+        loadSettings();
+        if (!$('f-date').value) $('f-date').value = nowStr();
+        initEditor();
+      })();
+    </script>
+  </Layout>
+</BaseLayout>
+
+<style>
+  .editor-page h2 { margin: 0 0 0.3em; }
+  .editor-page .hint { font-size: 0.85em; color: rgb(var(--gray)); margin: 0 0 1.2em; }
+  .settings { border: 1px solid rgb(var(--gray-light)); border-radius: 8px; padding: 0.4em 1em 0.8em; margin-bottom: 1.2em; background: rgba(255, 255, 255, 0.5); }
+  .settings summary { cursor: pointer; font-weight: 700; padding: 0.3em 0; }
+  .settings-grid { display: grid; gap: 0.6em; margin-top: 0.4em; }
+  .settings-grid label { display: flex; flex-direction: column; gap: 0.2em; font-size: 0.85em; color: rgb(var(--gray-dark)); }
+  .settings-grid label.check { flex-direction: row; align-items: center; gap: 0.4em; }
+  .settings-grid input[type='text'], .settings-grid input[type='password'] { padding: 0.4em 0.5em; border: 1px solid rgb(var(--gray-light)); border-radius: 6px; font-size: 14px; }
+  .settings .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6em; }
+  .settings .sub { font-size: 0.8em; color: rgb(var(--gray)); margin-top: 0.6em; }
+  .meta { display: grid; gap: 0.6em; margin-bottom: 1em; }
+  .meta label { display: flex; flex-direction: column; gap: 0.2em; font-size: 0.9em; color: rgb(var(--gray-dark)); }
+  .meta input[type='text'] { padding: 0.5em 0.6em; border: 1px solid rgb(var(--gray-light)); border-radius: 6px; font-size: 15px; }
+  .meta .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6em; }
+  #vditor { margin-top: 0.4em; }
+  .actions { margin-top: 1em; display: flex; align-items: center; gap: 0.8em; flex-wrap: wrap; }
+  button { cursor: pointer; padding: 0.5em 1.1em; border: none; border-radius: 6px; background: var(--accent); color: #fff; font-size: 0.95em; }
+  button:hover { background: var(--accent-dark); }
+  #btn-test { background: rgb(var(--gray-light)); color: rgb(var(--gray-dark)); }
+  .result { font-size: 0.85em; word-break: break-all; }
+  .result.ok { color: #1a7f37; }
+  .result.err { color: #cf222e; }
+  .result.info { color: rgb(var(--gray)); }
+  @media (max-width: 720px) {
+    .settings .row2, .meta .row2 { grid-template-columns: 1fr; }
+  }
+</style>
