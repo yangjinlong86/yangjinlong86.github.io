@@ -11,6 +11,16 @@ import Layout from '../components/Layout.astro';
         把文章作为一次 commit 推到 <code>main</code>，自动触发现有构建发布流程。
       </p>
 
+      <div class="mode-tabs">
+        <button id="mode-new" class="tab active" type="button">新建</button>
+        <button id="mode-edit" class="tab" type="button">编辑</button>
+      </div>
+
+      <div class="edit-bar" id="edit-bar" hidden>
+        <button id="btn-list" type="button">加载文章列表</button>
+        <select id="post-list"><option value="">— 选择文章 —</option></select>
+      </div>
+
       <details class="settings">
         <summary>GitHub 凭证与仓库设置</summary>
         <div class="settings-grid">
@@ -53,6 +63,7 @@ import Layout from '../components/Layout.astro';
 
       <div class="actions">
         <button id="btn-submit" type="button">提交并发布</button>
+        <button id="btn-delete" type="button" class="danger" hidden>删除此文章</button>
         <span id="submit-status" class="result"></span>
       </div>
     </section>
@@ -79,6 +90,34 @@ import Layout from '../components/Layout.astro';
         function esc(s) { return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, ' '); }
         function sanitizeSlug(s) {
           return String(s || '').trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9_-]/g, '');
+        }
+        function unb64(b) { return decodeURIComponent(escape(atob(String(b).replace(/\s/g, '')))); }
+        function unquote(v) {
+          v = String(v == null ? '' : v).trim();
+          if (v.length >= 2 && ((v[0] === '"' && v[v.length - 1] === '"') || (v[0] === "'" && v[v.length - 1] === "'"))) return v.slice(1, -1);
+          return v;
+        }
+        function parseTags(v) {
+          v = String(v == null ? '' : v).trim();
+          var m = /^\[(.*)\]$/.exec(v);
+          if (!m) return v ? [v] : [];
+          var inner = m[1].trim();
+          if (!inner) return [];
+          return inner.split(',').map(function (t) { return unquote(t); }).filter(Boolean);
+        }
+        function parseFrontmatter(md) {
+          var m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/.exec(md);
+          if (!m) return { title: '', date: '', tags: [], description: '', summary: '', slug: '', body: md };
+          var fm = {};
+          m[1].split(/\r?\n/).forEach(function (line) {
+            var idx = line.indexOf(':');
+            if (idx < 0) return;
+            fm[line.slice(0, idx).trim()] = line.slice(idx + 1).trim();
+          });
+          return {
+            title: unquote(fm.title), date: unquote(fm.date), tags: parseTags(fm.tags),
+            description: unquote(fm.description), summary: unquote(fm.summary), slug: unquote(fm.slug), body: m[2],
+          };
         }
 
         function loadSettings() {
@@ -145,13 +184,89 @@ import Layout from '../components/Layout.astro';
           } catch (e) { setTest('✗ 网络错误：' + e.message, 'err'); }
         });
 
+        // 模式与编辑状态
+        var mode = 'new';
+        var currentSha = null;
+        var currentSlug = null;
+
+        function resetForm() {
+          currentSha = null;
+          currentSlug = null;
+          ['f-title', 'f-slug', 'f-date', 'f-tags', 'f-desc', 'f-summary'].forEach(function (id) { $(id).value = ''; });
+          $('f-slug').readOnly = false;
+          if (vd) vd.setValue('');
+          setSub('', '');
+        }
+        function switchMode(m) {
+          mode = m;
+          $('mode-new').classList.toggle('active', m === 'new');
+          $('mode-edit').classList.toggle('active', m === 'edit');
+          $('edit-bar').hidden = (m !== 'edit');
+          $('btn-delete').hidden = (m !== 'edit');
+          resetForm();
+          if (m === 'new' && !$('f-date').value) $('f-date').value = nowStr();
+        }
+        async function loadList() {
+          var token = getToken();
+          if (!token) { setSub('✗ 请先填写 PAT', 'err'); return; }
+          var owner = $('gh-owner').value.trim();
+          var repo = $('gh-repo').value.trim();
+          setSub('加载列表中…', 'info');
+          try {
+            var res = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/src/content/posts', { headers: headers(token) });
+            var j = await res.json().catch(function () { return []; });
+            if (!res.ok) {
+              if (res.status === 404) setSub('✗ posts 目录不存在或无权限', 'err');
+              else if (res.status === 401 || res.status === 403) setSub('✗ token 无效或权限不足', 'err');
+              else setSub('✗ 加载失败 ' + res.status, 'err');
+              return;
+            }
+            var slugs = (Array.isArray(j) ? j : []).filter(function (x) { return x.type === 'dir'; }).map(function (x) { return x.name; }).sort();
+            var sel = $('post-list');
+            sel.innerHTML = '<option value="">— 选择文章（' + slugs.length + ' 篇）—</option>';
+            slugs.forEach(function (s) { var o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
+            setSub('✓ 已加载 ' + slugs.length + ' 篇文章，请在下拉中选择', 'ok');
+          } catch (e) { setSub('✗ 网络错误：' + e.message, 'err'); }
+        }
+        async function loadPost(slug) {
+          if (!slug) { resetForm(); return; }
+          var token = getToken();
+          if (!token) { setSub('✗ 请先填写 PAT', 'err'); return; }
+          var owner = $('gh-owner').value.trim();
+          var repo = $('gh-repo').value.trim();
+          setSub('加载文章中…', 'info');
+          try {
+            var path = 'src/content/posts/' + encodeURIComponent(slug) + '/index.md';
+            var res = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + path, { headers: headers(token) });
+            var j = await res.json().catch(function () { return {}; });
+            if (!res.ok) {
+              if (res.status === 404) setSub('✗ 文章不存在', 'err');
+              else setSub('✗ 加载失败 ' + res.status, 'err');
+              return;
+            }
+            currentSha = j.sha;
+            currentSlug = slug;
+            var p = parseFrontmatter(unb64(j.content));
+            $('f-title').value = p.title;
+            $('f-slug').value = slug;
+            $('f-slug').readOnly = true;
+            $('f-date').value = p.date;
+            $('f-tags').value = p.tags.join(', ');
+            $('f-desc').value = p.description;
+            $('f-summary').value = p.summary;
+            if (vd) vd.setValue(p.body);
+            setSub('✓ 已加载：' + slug + '（编辑后点「提交并发布」更新，或点「删除此文章」）', 'ok');
+          } catch (e) { setSub('✗ 网络错误：' + e.message, 'err'); }
+        }
+
         $('btn-submit').addEventListener('click', async function () {
           saveSettings();
           var title = $('f-title').value.trim();
           var token = getToken();
           if (!title) { setSub('✗ 请填写标题', 'err'); return; }
           if (!token) { setSub('✗ 请填写 PAT', 'err'); return; }
-          var slug = sanitizeSlug($('f-slug').value) || nowSlug();
+          var isEdit = mode === 'edit' && currentSha;
+          var slug = isEdit ? currentSlug : (sanitizeSlug($('f-slug').value) || nowSlug());
           var date = $('f-date').value.trim() || nowStr();
           var tags = $('f-tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
           var desc = $('f-desc').value.trim();
@@ -172,19 +287,24 @@ import Layout from '../components/Layout.astro';
           var repo = $('gh-repo').value.trim();
           var branch = $('gh-branch').value.trim() || 'main';
           var path = 'src/content/posts/' + encodeURIComponent(slug) + '/index.md';
+          var payload = { message: (isEdit ? 'update: ' : 'post: ') + title, content: b64(content), branch: branch };
+          if (isEdit) payload.sha = currentSha;
           setSub('提交中…', 'info');
           try {
             var res = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + path, {
               method: 'PUT', headers: headers(token, true),
-              body: JSON.stringify({ message: 'post: ' + title, content: b64(content), branch: branch }),
+              body: JSON.stringify(payload),
             });
             var j = await res.json().catch(function () { return {}; });
             if (res.ok) {
+              if (j.content && j.content.sha) currentSha = j.content.sha;
               var commitUrl = (j.commit && j.commit.html_url) || ('https://github.com/' + owner + '/' + repo + '/commits');
               var actionsUrl = 'https://github.com/' + owner + '/' + repo + '/actions';
               setSub('✓ 已提交！<a href="' + commitUrl + '" target="_blank" rel="noopener">查看 commit</a> ｜ <a href="' + actionsUrl + '" target="_blank" rel="noopener">Actions 进度</a>。约 1–2 分钟后发布完成。', 'ok');
             } else if (res.status === 422) {
-              setSub('✗ 该 slug 已存在，请换一个 slug', 'err');
+              setSub(isEdit ? '✗ 更新失败(422)，sha 可能不匹配，请重新加载文章' : '✗ 该 slug 已存在，请换一个 slug', 'err');
+            } else if (res.status === 409) {
+              setSub('✗ 文章已被改动(sha 过期)，请重新加载文章再提交', 'err');
             } else if (res.status === 401 || res.status === 403) {
               setSub('✗ token 无效或权限不足（需 Contents: Read and write）', 'err');
             } else if (res.status === 404) {
@@ -195,12 +315,50 @@ import Layout from '../components/Layout.astro';
           } catch (e) { setSub('✗ 网络错误：' + e.message, 'err'); }
         });
 
+        $('btn-delete').addEventListener('click', async function () {
+          if (!currentSha || !currentSlug) { setSub('✗ 请先加载一篇文章', 'err'); return; }
+          if (!confirm('确定删除「' + currentSlug + '」？\n此操作不可恢复，删除后立即触发发布，文章将从站点消失。')) return;
+          var token = getToken();
+          if (!token) { setSub('✗ 请填写 PAT', 'err'); return; }
+          var owner = $('gh-owner').value.trim();
+          var repo = $('gh-repo').value.trim();
+          var branch = $('gh-branch').value.trim() || 'main';
+          var path = 'src/content/posts/' + encodeURIComponent(currentSlug) + '/index.md';
+          setSub('删除中…', 'info');
+          try {
+            var res = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + path, {
+              method: 'DELETE', headers: headers(token, true),
+              body: JSON.stringify({ message: 'delete: ' + currentSlug, sha: currentSha, branch: branch }),
+            });
+            var j = await res.json().catch(function () { return {}; });
+            if (res.ok) {
+              var opt = $('post-list').querySelector('option[value="' + currentSlug + '"]');
+              if (opt) opt.remove();
+              var actionsUrl = 'https://github.com/' + owner + '/' + repo + '/actions';
+              resetForm();
+              setSub('✓ 已删除！文章将从站点移除。<a href="' + actionsUrl + '" target="_blank" rel="noopener">Actions 进度</a>。约 1–2 分钟后发布完成。', 'ok');
+            } else if (res.status === 409) {
+              setSub('✗ sha 过期，请重新加载文章', 'err');
+            } else if (res.status === 401 || res.status === 403) {
+              setSub('✗ token 无效或权限不足', 'err');
+            } else if (res.status === 404) {
+              setSub('✗ 文章不存在（可能已删除）', 'err');
+            } else {
+              setSub('✗ 失败：' + (j.message || ('HTTP ' + res.status)), 'err');
+            }
+          } catch (e) { setSub('✗ 网络错误：' + e.message, 'err'); }
+        });
+
         ['gh-owner', 'gh-repo', 'gh-branch', 'gh-remember', 'gh-token'].forEach(function (id) {
           $(id).addEventListener('change', saveSettings);
         });
+        $('mode-new').addEventListener('click', function () { switchMode('new'); });
+        $('mode-edit').addEventListener('click', function () { switchMode('edit'); });
+        $('btn-list').addEventListener('click', loadList);
+        $('post-list').addEventListener('change', function () { loadPost($('post-list').value); });
 
         loadSettings();
-        if (!$('f-date').value) $('f-date').value = nowStr();
+        switchMode('new');
         initEditor();
       })();
     </script>
@@ -210,6 +368,12 @@ import Layout from '../components/Layout.astro';
 <style>
   .editor-page h2 { margin: 0 0 0.3em; }
   .editor-page .hint { font-size: 0.85em; color: rgb(var(--gray)); margin: 0 0 1.2em; }
+  .mode-tabs { display: flex; gap: 0.4em; margin-bottom: 1em; }
+  .mode-tabs .tab { background: rgb(var(--gray-light)); color: rgb(var(--gray-dark)); }
+  .mode-tabs .tab.active { background: var(--accent); color: #fff; }
+  .edit-bar { display: flex; align-items: center; gap: 0.6em; flex-wrap: wrap; margin-bottom: 1em; }
+  .edit-bar[hidden] { display: none; }
+  .edit-bar select { padding: 0.4em 0.5em; border: 1px solid rgb(var(--gray-light)); border-radius: 6px; font-size: 14px; min-width: 240px; }
   .settings { border: 1px solid rgb(var(--gray-light)); border-radius: 8px; padding: 0.4em 1em 0.8em; margin-bottom: 1.2em; background: rgba(255, 255, 255, 0.5); }
   .settings summary { cursor: pointer; font-weight: 700; padding: 0.3em 0; }
   .settings-grid { display: grid; gap: 0.6em; margin-top: 0.4em; }
@@ -226,6 +390,9 @@ import Layout from '../components/Layout.astro';
   .actions { margin-top: 1em; display: flex; align-items: center; gap: 0.8em; flex-wrap: wrap; }
   button { cursor: pointer; padding: 0.5em 1.1em; border: none; border-radius: 6px; background: var(--accent); color: #fff; font-size: 0.95em; }
   button:hover { background: var(--accent-dark); }
+  .actions button.danger { background: #cf222e; }
+  .actions button.danger:hover { background: #a40e26; }
+  .actions button[hidden] { display: none; }
   #btn-test { background: rgb(var(--gray-light)); color: rgb(var(--gray-dark)); }
   .result { font-size: 0.85em; word-break: break-all; }
   .result.ok { color: #1a7f37; }
