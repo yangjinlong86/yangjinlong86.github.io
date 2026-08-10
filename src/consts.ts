@@ -35,7 +35,7 @@ export const giscusConfig = {
   reactionsEnabled: '1',
   emitMetadata: '0',
   inputPosition: 'bottom',
-  theme: 'dark',
+  theme: 'light',
   lang: 'zh-CN',
   loading: 'lazy',
 };

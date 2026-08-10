@@ -37,7 +37,7 @@ body {
   word-wrap: break-word;
   overflow-wrap: break-word;
   color: rgb(var(--gray-dark));
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.7;
   min-height: 100vh;
   display: flex;
@@ -57,11 +57,11 @@ h1, h2, h3, h4, h5, h6 {
   color: rgb(var(--black));
   line-height: 1.2;
 }
-h1 { font-size: 3.052em; }
-h2 { font-size: 2.441em; }
-h3 { font-size: 1.953em; }
-h4 { font-size: 1.563em; }
-h5 { font-size: 1.25em; }
+h1 { font-size: 2em; }
+h2 { font-size: 1.65em; }
+h3 { font-size: 1.35em; }
+h4 { font-size: 1.25em; }
+h5 { font-size: 1.1em; }
 strong, b { font-weight: 700; }
 
 a {
@@ -129,7 +129,7 @@ hr {
 }
 
 @media (max-width: 720px) {
-  body { font-size: 16px; }
+  body { font-size: 15px; }
   main { padding: 1em; }
 }
 
