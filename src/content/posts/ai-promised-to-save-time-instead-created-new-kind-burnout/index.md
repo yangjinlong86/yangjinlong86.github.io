@@ -1,5 +1,5 @@
 ---
-title: AI 承诺节省时间——结果却制造出一种新型倦怠
+title: AI本应节省时间——却催生了一种新型的倦怠
 date: "2026-08-10 14:52:37"
 tags: ['ai', 'coding']
 description: "本文译自 Decrypt 上 Jose Antonio Lanz 的文章《AI Promised to Save Time—Instead It's Created a New Kind of Burnout》,发表于 2026 年 2 月 9 日。文章报道了一项发表在《哈佛商业评论》上的研究:AI 工具并没有减少工作,反而让工作强度加剧,形成所谓的「工作量蔓延」与自我强化的倦怠循环。"
