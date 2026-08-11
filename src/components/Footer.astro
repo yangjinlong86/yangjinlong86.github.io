@@ -19,19 +19,47 @@ const year = new Date().getFullYear();
 <style>
   footer {
     padding: 2em 1em 4em;
-    background: linear-gradient(var(--gray-gradient)) no-repeat;
+    border-top: var(--border-w) solid var(--ink);
+    background: var(--paper);
     color: rgb(var(--gray));
     text-align: center;
   }
-  .copyright a { color: rgb(var(--gray)); }
-  .copyright a:hover { color: var(--accent); }
+  .copyright a {
+    color: var(--ink);
+    font-weight: 800;
+    background: var(--yellow);
+    padding: 0 0.2em;
+  }
+  .copyright a:hover {
+    color: #fff;
+    background: var(--accent);
+    text-decoration: none;
+  }
   .social-links {
     display: flex;
     justify-content: center;
-    gap: 1em;
-    margin-top: 1em;
+    gap: 0.8em;
+    margin-top: 1.2em;
   }
-  .social-links a { color: rgb(var(--gray)); text-decoration: none; }
-  .social-links a:hover { color: var(--accent); }
+  .social-links a {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    background: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 4px;
+    box-shadow: 2px 2px 0 0 var(--ink);
+    text-decoration: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease, color 0.15s ease;
+  }
+  .social-links a:hover {
+    color: #fff;
+    background: var(--accent);
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 0 var(--ink);
+  }
   .social-links .iconfont { font-size: 1.2rem; }
 </style>

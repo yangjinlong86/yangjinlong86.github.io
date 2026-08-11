@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Layout from '../components/Layout.astro';
+import { siteName } from '../consts';
 
 const posts = (await getCollection('posts')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 const groups: Record<string, CollectionEntry<'posts'>[]> = {};
@@ -10,14 +11,28 @@ for (const p of posts) {
   const y = p.data.date.slice(0, 4);
   (groups[y] = groups[y] || []).push(p);
 }
+const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
 ---
 <BaseLayout title="主页" description="一步一步，走出自己的轨迹" pathname="/">
   <Layout>
+    <section class="hero">
+      <p class="hero-stamp">{siteName} — 一步一步，走出自己的轨迹</p>
+      <h1>你好,我是 <span class="hl">Jason</span>。</h1>
+      <p class="hero-sub">
+        这里记录技术成长、音乐与生活。共 {posts.length} 篇文章,{tags.length} 个标签。
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/archive/">查看归档</a>
+        <a class="btn" href="/tags">浏览标签</a>
+      </div>
+    </section>
+
     <div class="css-archive">
-      {Object.entries(groups).sort((a, b) => Number(b[0]) - Number(a[0])).map(([year, ps]) => (
+      {years.map((year) => (
         <div>
           <div class="year-title">{year}</div>
-          {ps.map((p) => (
+          {groups[year].map((p) => (
             <div class="item">
               <span class="date">{p.data.date.slice(5, 10)}</span>
               <a class="title" href={`/${p.slug}`}>{p.data.title}</a>
@@ -28,3 +43,66 @@ for (const p of posts) {
     </div>
   </Layout>
 </BaseLayout>
+
+<style>
+  .hero {
+    padding: 1em 0 2.5em;
+    border-bottom: var(--border-w) solid var(--ink);
+    margin-bottom: 1em;
+    position: relative;
+  }
+  .hero-stamp {
+    display: inline-block;
+    margin: 0 0 0.8em;
+    padding: 0.2em 0.7em;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 900;
+    border: var(--border-w) solid var(--ink);
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-1deg);
+    font-size: 0.9em;
+  }
+  .hero h1 {
+    font-size: clamp(2.2em, 6vw, 3.4em);
+    line-height: 1.1;
+    margin: 0 0 0.4em;
+  }
+  .hl {
+    background: var(--yellow);
+    box-shadow: inset 0 -6px 0 rgba(255, 212, 0, 1);
+    padding: 0 0.15em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .hero-sub {
+    color: rgb(var(--gray));
+    font-size: 1.05em;
+    margin: 0 0 1.4em;
+    max-width: 34em;
+  }
+  .hero-actions { display: flex; gap: 0.9em; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 0.55em 1.3em;
+    background: #fff;
+    border: var(--border-w) solid var(--ink);
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+    color: var(--ink);
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease, color 0.15s ease;
+  }
+  .btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 0 var(--ink);
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent-dark); color: #fff; }
+</style>

@@ -29,8 +29,8 @@ const isActive = (href: string) => {
   header {
     margin: 0;
     padding: 0 1em;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
+    background: var(--paper);
+    border-bottom: var(--border-w) solid var(--ink);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -43,45 +43,84 @@ const isActive = (href: string) => {
     margin: 0 auto;
     gap: 1em;
     flex-wrap: wrap;
+    padding: 0.4em 0;
   }
   h2 {
     margin: 0;
-    font-size: 1.1em;
-    font-weight: 700;
+    font-size: 1.15em;
+    font-weight: 900;
   }
   h2 a {
-    color: rgb(var(--black));
+    display: inline-block;
+    padding: 0.2em 0.5em;
+    color: var(--ink);
+    background: var(--yellow);
+    border: 2.5px solid var(--ink);
+    border-radius: 4px;
+    box-shadow: 3px 3px 0 0 var(--ink);
     text-decoration: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
   }
-  h2 a:hover { color: var(--accent); }
+  h2 a:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 0 var(--ink);
+  }
   .internal-links {
     display: flex;
-    gap: 0.1em;
+    gap: 0.3em;
     flex-wrap: wrap;
   }
   .internal-links a {
-    padding: 1em 0.6em;
-    color: rgb(var(--black));
+    padding: 0.45em 0.7em;
+    color: var(--ink);
+    font-weight: 700;
     text-decoration: none;
-    border-bottom: 4px solid transparent;
+    border: 2.5px solid transparent;
+    border-radius: 4px;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease, color 0.15s ease;
   }
-  .internal-links a:hover { color: var(--accent); }
+  .internal-links a:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+    background: #fff;
+    box-shadow: 3px 3px 0 0 var(--ink);
+    transform: translate(-1px, -1px);
+  }
   .internal-links a.active {
-    border-bottom-color: var(--accent);
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--ink);
+    box-shadow: 3px 3px 0 0 var(--ink);
   }
   .social-links {
     display: flex;
-    gap: 0.6em;
+    gap: 0.5em;
   }
   .social-links a {
-    color: rgb(var(--gray));
+    width: 30px;
+    height: 30px;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    background: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 4px;
+    box-shadow: 2px 2px 0 0 var(--ink);
     text-decoration: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease, color 0.15s ease;
   }
-  .social-links a:hover { color: var(--accent); }
-  .social-links .iconfont { font-size: 1.15rem; }
+  .social-links a:hover {
+    color: #fff;
+    background: var(--accent);
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 0 var(--ink);
+  }
+  .social-links .iconfont { font-size: 1.1rem; }
   @media (max-width: 720px) {
     .social-links { display: none; }
-    .internal-links a { padding: 0.8em 0.4em; font-size: 0.9em; }
+    .internal-links a { padding: 0.45em 0.45em; font-size: 0.92em; }
   }
 </style>
