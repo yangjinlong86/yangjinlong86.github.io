@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Layout from '../components/Layout.astro';
@@ -10,7 +10,7 @@ import GiscusComment from '../components/GiscusComment.astro';
 export async function getStaticPaths() {
   const posts = (await getCollection('posts')).sort((a, b) => b.data.date.localeCompare(a.data.date));
   return posts.map((post, index) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: {
       post,
       previous: index < posts.length - 1 ? posts[index + 1] : null,
@@ -20,10 +20,10 @@ export async function getStaticPaths() {
 }
 
 const { post, previous, next } = Astro.props;
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 const date = post.data.date.split(' ')[0];
 ---
-<BaseLayout title={post.data.title} description={post.data.description} keywords={post.data.tags} pathname={`/${post.slug}`}>
+<BaseLayout title={post.data.title} description={post.data.description} keywords={post.data.tags} pathname={`/${post.id}`}>
   <Layout>
     <h1>{post.data.title}</h1>
     <PostInfo date={date} tags={post.data.tags} />
@@ -33,9 +33,9 @@ const date = post.data.date.split(' ')[0];
     </div>
     <hr />
     <ul class="nav-links">
-      <li>{previous && <a href={`/${previous.slug}`} rel="prev">← 上一篇: {previous.data.title}</a>}</li>
-      <li>{next && <a href={`/${next.slug}`} rel="next">下一篇: {next.data.title} -></a>}</li>
+      <li>{previous && <a href={`/${previous.id}`} rel="prev">← 上一篇: {previous.data.title}</a>}</li>
+      <li>{next && <a href={`/${next.id}`} rel="next">下一篇: {next.data.title} -></a>}</li>
     </ul>
-    <GiscusComment slug={post.slug} />
+    <GiscusComment slug={post.id} />
   </Layout>
 </BaseLayout>

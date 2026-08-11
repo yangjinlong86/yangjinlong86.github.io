@@ -14,7 +14,7 @@ export async function GET(context: { site?: URL }) {
       title: p.data.title,
       pubDate: new Date(p.data.date.replace(' ', 'T')),
       description: p.data.description || '',
-      link: `/${p.slug}/`,
+      link: `/${p.id}/`,
     })),
   });
 }

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.scss';
 import { SITE } from '../consts';
+import 'katex/dist/katex.min.css';
 
 interface Props {
   title: string;
@@ -42,7 +43,6 @@ const kw = (keywords || SITE.keywords).join(',');
   <link rel="icon" type="image/png" sizes="32x32" href="/icon.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous" />
   <script is:inline>
     var _hmt = _hmt || [];
     (function() {

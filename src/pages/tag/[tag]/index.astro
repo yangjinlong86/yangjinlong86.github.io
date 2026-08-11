@@ -22,7 +22,7 @@ const pagePosts = tagPosts.slice(0, PER);
   <Layout pageName={tag}>
     {pagePosts.map((p) => (
       <div class="list-item">
-        <div class="list-title"><a href={`/${p.slug}`}>{p.data.title}</a></div>
+        <div class="list-title"><a href={`/${p.id}`}>{p.data.title}</a></div>
         <PostInfo date={p.data.date.split(' ')[0]} tags={p.data.tags} />
         <p class="list-excerpt">{p.data.description}</p>
       </div>

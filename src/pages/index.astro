@@ -35,7 +35,7 @@ const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
           {groups[year].map((p) => (
             <div class="item">
               <span class="date">{p.data.date.slice(5, 10)}</span>
-              <a class="title" href={`/${p.slug}`}>{p.data.title}</a>
+              <a class="title" href={`/${p.id}`}>{p.data.title}</a>
             </div>
           ))}
         </div>
