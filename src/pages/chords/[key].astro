@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Layout from '../../components/Layout.astro';
+import ChordDiagram from '../../components/ChordDiagram.astro';
+import chords from '../../data/chords.json';
+import { KEYS, SUFFIX_ORDER, chordName, anchorId, type ChordEntry } from '../../lib/chords';
+
+export function getStaticPaths() {
+  return KEYS.map((key) => ({ params: { key } }));
+}
+
+const { key } = Astro.params;
+const keyChords = (chords as ChordEntry[]).filter((c) => c.key === key);
+const ordered = SUFFIX_ORDER
+  .map((s) => keyChords.find((c) => c.suffix === s))
+  .filter((c): c is ChordEntry => Boolean(c));
+---
+<BaseLayout title={`${key} 调常用和弦指法`} pathname={`/chords/${key}/`}>
+  <Layout pageName={`${key} 调常用和弦`}>
+    <nav class="key-tabs" aria-label="调性切换">
+      {KEYS.map((k) => (
+        <a href={`/chords/${k}/`} class={k === key ? 'active' : ''}>{k}</a>
+      ))}
+      <a class="degrees-link" href={`/chords/degrees/${key}/`}>按级数查看 I~vii° →</a>
+    </nav>
+    <div class="chord-grid">
+      {ordered.map((chord) => (
+        <article class="chord-card" id={anchorId(chord.key, chord.suffix)}>
+          <h3>{chordName(chord.key, chord.suffix)}</h3>
+          <div class="diagrams">
+            {chord.positions.map((p) => (
+              <ChordDiagram position={p} />
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+    <footer class="attribution">
+      和弦数据来源 <a href="https://github.com/tombatossals/chords-db" target="_blank" rel="noopener noreferrer">chords-db</a>(MIT License)
+    </footer>
+  </Layout>
+</BaseLayout>
+
+<style>
+  .key-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    margin-bottom: 1.2em;
+  }
+  .key-tabs a {
+    padding: 0.35em 0.9em;
+    font-weight: 800;
+    color: var(--ink);
+    background: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition: transform 0.1s ease, background 0.15s ease;
+  }
+  .key-tabs a:hover {
+    background: var(--yellow);
+    transform: translate(-1px, -1px);
+  }
+  .key-tabs a.active {
+    color: #fff;
+    background: var(--accent);
+  }
+  .key-tabs a.degrees-link {
+    background: var(--yellow);
+  }
+  .chord-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 1em;
+  }
+  .chord-card {
+    background: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+    padding: 0.7em 0.6em 0.5em;
+    scroll-margin-top: 5em;
+  }
+  .chord-card:target {
+    outline: 3px solid var(--accent);
+    animation: flash 1.2s ease;
+  }
+  @keyframes flash {
+    0% { background: var(--yellow); }
+    100% { background: #fff; }
+  }
+  .chord-card h3 {
+    margin: 0 0 0.3em;
+    text-align: center;
+    font-size: 1.15em;
+  }
+  .diagrams {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4em;
+  }
+  .diagrams :global(svg) {
+    width: 108px;
+    height: auto;
+  }
+  .attribution {
+    margin-top: 2em;
+    font-size: 0.85em;
+    opacity: 0.75;
+  }
+</style>

@@ -15,6 +15,7 @@ export const menu = [
   { icon: 'life', name: '生活', href: '/tag/life/' },
   { icon: 'tag', name: '标签', href: '/tags' },
   { icon: 'archive', name: '归档', href: '/archive' },
+  { icon: 'chord', name: '和弦', href: '/chords' },
   { icon: 'person', name: '关于', href: '/about' },
 ];
 

@@ -1,0 +1,310 @@
+{
+ "C": [
+  {
+   "deg": "I",
+   "func": "主",
+   "root": "C",
+   "suffix": "major"
+  },
+  {
+   "deg": "ii",
+   "func": "下属",
+   "root": "D",
+   "suffix": "minor"
+  },
+  {
+   "deg": "iii",
+   "func": "中介",
+   "root": "E",
+   "suffix": "minor"
+  },
+  {
+   "deg": "IV",
+   "func": "下属",
+   "root": "F",
+   "suffix": "major"
+  },
+  {
+   "deg": "V",
+   "func": "属",
+   "root": "G",
+   "suffix": "major"
+  },
+  {
+   "deg": "vi",
+   "func": "中介",
+   "root": "A",
+   "suffix": "minor"
+  },
+  {
+   "deg": "vii°",
+   "func": "导",
+   "root": "B",
+   "suffix": "dim"
+  }
+ ],
+ "D": [
+  {
+   "deg": "I",
+   "func": "主",
+   "root": "D",
+   "suffix": "major"
+  },
+  {
+   "deg": "ii",
+   "func": "下属",
+   "root": "E",
+   "suffix": "minor"
+  },
+  {
+   "deg": "iii",
+   "func": "中介",
+   "root": "F#",
+   "suffix": "minor"
+  },
+  {
+   "deg": "IV",
+   "func": "下属",
+   "root": "G",
+   "suffix": "major"
+  },
+  {
+   "deg": "V",
+   "func": "属",
+   "root": "A",
+   "suffix": "major"
+  },
+  {
+   "deg": "vi",
+   "func": "中介",
+   "root": "B",
+   "suffix": "minor"
+  },
+  {
+   "deg": "vii°",
+   "func": "导",
+   "root": "C#",
+   "suffix": "dim"
+  }
+ ],
+ "E": [
+  {
+   "deg": "I",
+   "func": "主",
+   "root": "E",
+   "suffix": "major"
+  },
+  {
+   "deg": "ii",
+   "func": "下属",
+   "root": "F#",
+   "suffix": "minor"
+  },
+  {
+   "deg": "iii",
+   "func": "中介",
+   "root": "G#",
+   "suffix": "minor"
+  },
+  {
+   "deg": "IV",
+   "func": "下属",
+   "root": "A",
+   "suffix": "major"
+  },
+  {
+   "deg": "V",
+   "func": "属",
+   "root": "B",
+   "suffix": "major"
+  },
+  {
+   "deg": "vi",
+   "func": "中介",
+   "root": "C#",
+   "suffix": "minor"
+  },
+  {
+   "deg": "vii°",
+   "func": "导",
+   "root": "D#",
+   "suffix": "dim"
+  }
+ ],
+ "F": [
+  {
+   "deg": "I",
+   "func": "主",
+   "root": "F",
+   "suffix": "major"
+  },
+  {
+   "deg": "ii",
+   "func": "下属",
+   "root": "G",
+   "suffix": "minor"
+  },
+  {
+   "deg": "iii",
+   "func": "中介",
+   "root": "A",
+   "suffix": "minor"
+  },
+  {
+   "deg": "IV",
+   "func": "下属",
+   "root": "Bb",
+   "suffix": "major"
+  },
+  {
+   "deg": "V",
+   "func": "属",
+   "root": "C",
+   "suffix": "major"
+  },
+  {
+   "deg": "vi",
+   "func": "中介",
+   "root": "D",
+   "suffix": "minor"
+  },
+  {
+   "deg": "vii°",
+   "func": "导",
+   "root": "E",
+   "suffix": "dim"
+  }
+ ],
+ "G": [
+  {
+   "deg": "I",
+   "func": "主",
+   "root": "G",
+   "suffix": "major"
+  },
+  {
+   "deg": "ii",
+   "func": "下属",
+   "root": "A",
+   "suffix": "minor"
+  },
+  {
+   "deg": "iii",
+   "func": "中介",
+   "root": "B",
+   "suffix": "minor"
+  },
+  {
+   "deg": "IV",
+   "func": "下属",
+   "root": "C",
+   "suffix": "major"
+  },
+  {
+   "deg": "V",
+   "func": "属",
+   "root": "D",
+   "suffix": "major"
+  },
+  {
+   "deg": "vi",
+   "func": "中介",
+   "root": "E",
+   "suffix": "minor"
+  },
+  {
+   "deg": "vii°",
+   "func": "导",
+   "root": "F#",
+   "suffix": "dim"
+  }
+ ],
+ "A": [
+  {
+   "deg": "I",
+   "func": "主",
+   "root": "A",
+   "suffix": "major"
+  },
+  {
+   "deg": "ii",
+   "func": "下属",
+   "root": "B",
+   "suffix": "minor"
+  },
+  {
+   "deg": "iii",
+   "func": "中介",
+   "root": "C#",
+   "suffix": "minor"
+  },
+  {
+   "deg": "IV",
+   "func": "下属",
+   "root": "D",
+   "suffix": "major"
+  },
+  {
+   "deg": "V",
+   "func": "属",
+   "root": "E",
+   "suffix": "major"
+  },
+  {
+   "deg": "vi",
+   "func": "中介",
+   "root": "F#",
+   "suffix": "minor"
+  },
+  {
+   "deg": "vii°",
+   "func": "导",
+   "root": "G#",
+   "suffix": "dim"
+  }
+ ],
+ "B": [
+  {
+   "deg": "I",
+   "func": "主",
+   "root": "B",
+   "suffix": "major"
+  },
+  {
+   "deg": "ii",
+   "func": "下属",
+   "root": "C#",
+   "suffix": "minor"
+  },
+  {
+   "deg": "iii",
+   "func": "中介",
+   "root": "D#",
+   "suffix": "minor"
+  },
+  {
+   "deg": "IV",
+   "func": "下属",
+   "root": "E",
+   "suffix": "major"
+  },
+  {
+   "deg": "V",
+   "func": "属",
+   "root": "F#",
+   "suffix": "major"
+  },
+  {
+   "deg": "vi",
+   "func": "中介",
+   "root": "G#",
+   "suffix": "minor"
+  },
+  {
+   "deg": "vii°",
+   "func": "导",
+   "root": "A#",
+   "suffix": "dim"
+  }
+ ]
+}

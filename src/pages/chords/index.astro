@@ -1,0 +1,285 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Layout from '../../components/Layout.astro';
+import chords from '../../data/chords.json';
+import { KEYS, buildSearchData, type ChordEntry } from '../../lib/chords';
+
+const { index, aliases } = buildSearchData(chords as ChordEntry[]);
+const payload = JSON.stringify({ index, aliases });
+---
+<BaseLayout title="和弦指法库" pathname="/chords/">
+  <Layout pageName="和弦指法库">
+    <p class="intro">
+      收录 C、D、E、F、G、A、B 七个常用大调共 20 种和弦的吉他指法图。输入和弦名直达,
+      或点击调性浏览全部指法。
+    </p>
+    <div class="search-box">
+      <input
+        id="chord-q"
+        type="text"
+        placeholder="输入和弦名,如 Cmaj7、Am7、Gsus4"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <ul id="chord-results" hidden></ul>
+    </div>
+    <a class="degrees-banner" href="/chords/degrees/C/">
+      <strong>各级和弦按法</strong>
+      <span>七调 I~vii° 级数和弦 · 一页看全常用走向</span>
+    </a>
+    <section class="key-cards" aria-label="按调浏览">
+      {KEYS.map((k) => {
+        const count = (chords as ChordEntry[]).filter((c) => c.key === k).length;
+        return (
+          <a class="key-card" href={`/chords/${k}/`}>
+            <strong>{k}</strong>
+            <span>{count} 个和弦</span>
+          </a>
+        );
+      })}
+    </section>
+    <footer class="attribution">
+      和弦数据来源 <a href="https://github.com/tombatossals/chords-db" target="_blank" rel="noopener noreferrer">chords-db</a>(MIT License)
+    </footer>
+    <script type="application/json" id="chord-index" set:html={payload} />
+    <script is:inline>
+      (function () {
+        var dataEl = document.getElementById('chord-index');
+        var input = document.getElementById('chord-q');
+        var list = document.getElementById('chord-results');
+        if (!dataEl || !input || !list) return;
+        var data = JSON.parse(dataEl.textContent || '{}');
+        var aliases = data.aliases || {};
+        var index = data.index || [];
+        var items = [];
+        var activeIdx = -1;
+        var timer = null;
+
+        function parse(v) {
+          v = v.trim().replace(/\s+/g, '');
+          if (!v) return null;
+          var m = v.match(/^([A-Ga-g])([#b♯♭]?)(.*)$/);
+          if (m) {
+            var acc = m[2].replace('♯', '#').replace('♭', 'b');
+            var root = m[1].toUpperCase() + acc;
+            var rest = m[3];
+            var suffix = rest === '' ? 'major' : (aliases[rest] || aliases[rest.toLowerCase()] || null);
+            if (suffix) return { root: root, suffix: suffix };
+            return null;
+          }
+          // 无根音:整串当作后缀别名,如输入 m7 列出全部小七
+          var s = aliases[v] || aliases[v.toLowerCase()] || null;
+          return s ? { root: null, suffix: s } : null;
+        }
+
+        function render(query) {
+          clear();
+          var parsed = parse(query);
+          if (!parsed) {
+            if (query.trim()) showEmpty('未识别该和弦,试试 Cmaj7 / Am7 / Gsus4');
+            return;
+          }
+          items = index.filter(function (row) {
+            return (!parsed.root || row[0] === parsed.root) && row[1] === parsed.suffix;
+          }).slice(0, 12);
+          if (!items.length) {
+            showEmpty('暂未收录该和弦');
+            return;
+          }
+          items.forEach(function (row) {
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '/chords/' + row[0] + '/#' + row[0].toLowerCase() + '-' + row[1];
+            a.innerHTML = '<strong>' + row[2] + '</strong><span>' + row[0] + ' 调 · ' + row[3] + ' 个指法</span>';
+            a.addEventListener('click', close);
+            li.appendChild(a);
+            list.appendChild(li);
+          });
+          list.hidden = false;
+          activeIdx = -1;
+        }
+
+        function showEmpty(msg) {
+          var li = document.createElement('li');
+          li.className = 'empty';
+          li.textContent = msg;
+          list.appendChild(li);
+          list.hidden = false;
+        }
+
+        function setActive() {
+          var lis = list.querySelectorAll('li:not(.empty)');
+          lis.forEach(function (el, i) {
+            el.classList.toggle('active', i === activeIdx);
+          });
+        }
+
+        function clear() {
+          list.innerHTML = '';
+          list.hidden = true;
+          items = [];
+          activeIdx = -1;
+        }
+
+        function close() { clear(); input.value = ''; }
+
+        input.addEventListener('input', function () {
+          clearTimeout(timer);
+          var v = input.value;
+          if (!v.trim()) { clear(); return; }
+          timer = setTimeout(function () { render(v); }, 150);
+        });
+        input.addEventListener('keydown', function (e) {
+          var max = list.querySelectorAll('li:not(.empty)').length;
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeIdx = Math.min(activeIdx + 1, max - 1);
+            setActive();
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeIdx = Math.max(activeIdx - 1, 0);
+            setActive();
+          } else if (e.key === 'Enter') {
+            var target = list.querySelectorAll('li:not(.empty) a')[Math.max(activeIdx, 0)];
+            if (target) target.click();
+          } else if (e.key === 'Escape') {
+            clear();
+          }
+        });
+        document.addEventListener('click', function (e) {
+          if (!list.hidden && e.target !== input && !list.contains(e.target)) clear();
+        });
+      })();
+    </script>
+  </Layout>
+</BaseLayout>
+
+<style>
+  .intro {
+    margin: 0 0 1em;
+    opacity: 0.85;
+  }
+  .search-box {
+    position: relative;
+    max-width: 420px;
+    margin-bottom: 1.6em;
+  }
+  .search-box input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.55em 0.9em;
+    font-size: 1em;
+    color: var(--ink);
+    background: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+  }
+  .search-box input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  #chord-results {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0.25em;
+    list-style: none;
+    background: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  #chord-results li a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1em;
+    padding: 0.45em 0.6em;
+    border-radius: 3px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  #chord-results li a strong {
+    font-size: 1.05em;
+  }
+  #chord-results li a span {
+    font-size: 0.82em;
+    opacity: 0.65;
+  }
+  #chord-results li.active a,
+  #chord-results li a:hover {
+    background: var(--yellow);
+  }
+  #chord-results li.empty {
+    padding: 0.45em 0.6em;
+    font-size: 0.88em;
+    opacity: 0.7;
+  }
+  .degrees-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15em;
+    max-width: 420px;
+    box-sizing: border-box;
+    margin-bottom: 1.6em;
+    padding: 0.8em 1em;
+    background: var(--yellow);
+    border: 2.5px solid var(--ink);
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition: transform 0.1s ease;
+  }
+  .degrees-banner:hover {
+    transform: translate(-1px, -1px);
+  }
+  .degrees-banner strong {
+    font-size: 1.05em;
+    color: var(--ink);
+  }
+  .degrees-banner span {
+    font-size: 0.82em;
+    opacity: 0.75;
+  }
+  .key-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.8em;
+  }
+  .key-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15em;
+    padding: 0.8em 0.5em;
+    background: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition: transform 0.1s ease, background 0.15s ease;
+  }
+  .key-card:hover {
+    background: var(--yellow);
+    transform: translate(-1px, -1px);
+  }
+  .key-card strong {
+    font-size: 1.6em;
+    color: var(--ink);
+  }
+  .key-card span {
+    font-size: 0.8em;
+    opacity: 0.65;
+  }
+  .attribution {
+    margin-top: 2em;
+    font-size: 0.85em;
+    opacity: 0.75;
+  }
+</style>

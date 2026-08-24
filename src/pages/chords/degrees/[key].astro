@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Layout from '../../../components/Layout.astro';
+import ChordDiagram from '../../../components/ChordDiagram.astro';
+import chords from '../../../data/chords.json';
+import degreesAll from '../../../data/degrees.json';
+import { KEYS, SUFFIX_DISPLAY, type ChordEntry } from '../../../lib/chords';
+
+export function getStaticPaths() {
+  return KEYS.map((key) => ({ params: { key } }));
+}
+
+const { key } = Astro.params;
+const degrees = degreesAll[key];
+const byRef = new Map<string, ChordEntry>();
+for (const c of chords as ChordEntry[]) byRef.set(`${c.key}|${c.suffix}`, c);
+
+const cards = degrees.map((d) => {
+  const chord = byRef.get(`${d.root}|${d.suffix}`);
+  if (!chord) throw new Error(`degrees 引用未解析: ${key} ${d.deg} -> ${d.root}${d.suffix}`);
+  const name = d.root + (SUFFIX_DISPLAY[d.suffix] ?? d.suffix);
+  return { ...d, name, positions: chord.positions.slice(0, 2) };
+});
+---
+<BaseLayout title={`${key} 调各级和弦指法`} pathname={`/chords/degrees/${key}/`}>
+  <Layout pageName={`${key} 调各级和弦`}>
+    <nav class="key-tabs" aria-label="调性切换">
+      {KEYS.map((k) => (
+        <a href={`/chords/degrees/${k}/`} class={k === key ? 'active' : ''}>{k}</a>
+      ))}
+    </nav>
+    <p class="hint">
+      自然大调七个级数:I 主、ii 下属、iii 中介、IV 下属、V 属、vi 中介、vii° 导。
+      常用进行:I–V–vi–IV、I–vi–ii–V。
+      <a href={`/chords/${key}/`}>查看该调全部和弦 →</a>
+    </p>
+    <div class="degree-grid">
+      {cards.map((c) => (
+        <article class="degree-card">
+          <div class="head">
+            <span class="deg">{c.deg}</span>
+            <div class="meta">
+              <strong>{c.name}</strong>
+              <span>{c.func}</span>
+            </div>
+          </div>
+          <div class="diagrams">
+            {c.positions.map((p) => (
+              <ChordDiagram position={p} />
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+    <footer class="attribution">
+      和弦数据来源 <a href="https://github.com/tombatossals/chords-db" target="_blank" rel="noopener noreferrer">chords-db</a>(MIT License)
+    </footer>
+  </Layout>
+</BaseLayout>
+
+<style>
+  .key-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    margin-bottom: 1em;
+  }
+  .key-tabs a {
+    padding: 0.35em 0.9em;
+    font-weight: 800;
+    color: var(--ink);
+    background: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 4px;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition: transform 0.1s ease, background 0.15s ease;
+  }
+  .key-tabs a:hover {
+    background: var(--yellow);
+    transform: translate(-1px, -1px);
+  }
+  .key-tabs a.active {
+    color: #fff;
+    background: var(--accent);
+  }
+  .hint {
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin: 0 0 1.2em;
+  }
+  .hint a {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .degree-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1em;
+  }
+  .degree-card {
+    background: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+    padding: 0.7em 0.6em 0.5em;
+  }
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-bottom: 0.4em;
+  }
+  .deg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.2em;
+    padding: 0.15em 0.35em;
+    background: var(--yellow);
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    font-weight: 900;
+    font-size: 1.05em;
+  }
+  .meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+  .meta strong {
+    font-size: 1.2em;
+  }
+  .meta span {
+    font-size: 0.78em;
+    opacity: 0.65;
+  }
+  .diagrams {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4em;
+  }
+  .diagrams :global(svg) {
+    width: 104px;
+    height: auto;
+  }
+  .attribution {
+    margin-top: 2em;
+    font-size: 0.85em;
+    opacity: 0.75;
+  }
+</style>

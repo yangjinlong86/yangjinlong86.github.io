@@ -1,0 +1,77 @@
+---
+import type { ChordPosition } from '../lib/chords';
+
+interface Props {
+  name?: string;
+  position: ChordPosition;
+}
+
+const { name, position } = Astro.props;
+const { frets, fingers, baseFret, barres = [] } = position;
+
+const X0 = 32;
+const XGAP = 18;
+const Y0 = 40;
+const YGAP = 20;
+const FRETS = 5;
+const CENTER_X = X0 + XGAP * 2.5;
+const sx = (i: number) => X0 + i * XGAP;
+const rowCenter = (fretNum: number) => Y0 + (fretNum - baseFret) * YGAP + YGAP / 2;
+
+const gridY = Array.from({ length: FRETS + 1 }, (_, j) => Y0 + j * YGAP);
+const dots: { x: number; y: number; finger: number }[] = [];
+const opens: number[] = [];
+const mutes: number[] = [];
+frets.forEach((f, i) => {
+  if (f === -1) mutes.push(i);
+  else if (f === 0) opens.push(i);
+  else if (f >= baseFret && f < baseFret + FRETS) {
+    dots.push({ x: sx(i), y: rowCenter(f), finger: fingers?.[i] ?? 0 });
+  }
+});
+const barreRects = (barres as number[])
+  .filter((b) => b >= baseFret && b < baseFret + FRETS)
+  .map((b) => {
+    const idx = frets.reduce<number[]>((acc, f, i) => (f === b ? [...acc, i] : acc), []);
+    const from = Math.min(...idx), to = Math.max(...idx);
+    return { x: sx(from) - 9, w: sx(to) - sx(from) + 18, y: rowCenter(b) - 6 };
+  });
+---
+<svg viewBox="0 0 136 152" role="img" aria-label={`${name ? name + ' ' : ''}和弦指法图`}>
+  {name && <text class="chord-name" x={CENTER_X} y="18" text-anchor="middle">{name}</text>}
+  {mutes.map((i) => (
+    <text class="mute" x={sx(i)} y={Y0 - 9} text-anchor="middle">×</text>
+  ))}
+  {opens.map((i) => (
+    <circle class="open" cx={sx(i)} cy={Y0 - 12} r="4.5" />
+  ))}
+  <line class={baseFret === 1 ? 'nut' : 'line'} x1={X0} y1={Y0} x2={sx(5)} y2={Y0} />
+  {gridY.slice(1).map((y) => (
+    <line class="line" x1={X0} y1={y} x2={sx(5)} y2={y} />
+  ))}
+  {Array.from({ length: 6 }, (_, i) => (
+    <line class="line" x1={sx(i)} y1={Y0} x2={sx(i)} y2={Y0 + FRETS * YGAP} />
+  ))}
+  {barreRects.map((r) => (
+    <rect class="dot" x={r.x} y={r.y} width={r.w} height="12" rx="6" ry="6" />
+  ))}
+  {dots.map((d) => (
+    <circle class="dot" cx={d.x} cy={d.y} r="8" />
+  ))}
+  {dots.filter((d) => d.finger > 0).map((d) => (
+    <text class="finger" x={d.x} y={d.y + 3.5} text-anchor="middle">{d.finger}</text>
+  ))}
+  {baseFret > 1 && <text class="fret-label" x={X0 - 6} y={rowCenter(baseFret) + 3.5} text-anchor="end">{baseFret}fr</text>}
+</svg>
+
+<style>
+  svg { color: var(--ink); display: block; }
+  .chord-name { font-size: 15px; font-weight: 800; fill: currentColor; }
+  .line { stroke: currentColor; stroke-width: 1.5; }
+  .nut { stroke: currentColor; stroke-width: 5; }
+  .open { fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .mute { font-size: 13px; fill: currentColor; }
+  .dot { fill: var(--accent); stroke: var(--ink); stroke-width: 1.5; }
+  .finger { font-size: 10px; font-weight: 700; fill: #fff; }
+  .fret-label { font-size: 10px; fill: currentColor; opacity: 0.75; }
+</style>
